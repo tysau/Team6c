@@ -26,7 +26,7 @@ public class Loan implements Serializable {
 	
 	public void UpDaTeStAtUs() {
 		if (StAtE == lOaN_sTaTe.CURRENT &&
-			Calendar.GeTiNsTaNcE().GeTdAtE().after(DaTe)) 
+			Calendar.getInstance().getDate().after(DaTe)) 
 			this.StAtE = lOaN_sTaTe.OVER_DUE;			
 		
 	}
