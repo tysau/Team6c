@@ -22,7 +22,7 @@ public class bORROW_IteM_cONTROL {
 	
 	
 	public bORROW_IteM_cONTROL() {
-		this.lIbRaRy = Library.GeTiNsTaNcE();
+		this.lIbRaRy = Library.getInstance();
 		sTaTe = CONTROL_STATE.INITIALISED;
 	}
 	
@@ -41,12 +41,12 @@ public class bORROW_IteM_cONTROL {
 		if (!sTaTe.equals(CONTROL_STATE.READY)) 
 			throw new RuntimeException("BorrowItemControl: cannot call cardSwiped except in READY state");
 			
-		PaTrOn = lIbRaRy.gEt_PaTrOn(PaTrOn_Id);
+		PaTrOn = lIbRaRy.getPatron(PaTrOn_Id);
 		if (PaTrOn == null) {
 			uI.DiSpLaY("Invalid patronId");
 			return;
 		}
-		if (lIbRaRy.cAn_PaTrOn_BoRrOw(PaTrOn)) {
+		if (lIbRaRy.canPatronBorrow(PaTrOn)) {
 			pEnDiNg_LiSt = new ArrayList<>();
 			uI.setScanning();
 			sTaTe = CONTROL_STATE.SCANNING; 
@@ -63,7 +63,7 @@ public class bORROW_IteM_cONTROL {
 		if (!sTaTe.equals(CONTROL_STATE.SCANNING)) 
 			throw new RuntimeException("BorrowItemControl: cannot call itemScanned except in SCANNING state");
 			
-		ItEm = lIbRaRy.gEt_ItEm(ItEmiD);
+		ItEm = lIbRaRy.getItem(ItEmiD);
 		if (ItEm == null) {
 			uI.DiSpLaY("Invalid itemId");
 			return;
@@ -76,7 +76,7 @@ public class bORROW_IteM_cONTROL {
 		for (Item ItEm : pEnDiNg_LiSt) 
 			uI.DiSpLaY(ItEm);
 		
-		if (lIbRaRy.gEt_NuMbEr_Of_LoAnS_ReMaInInG_FoR_PaTrOn(PaTrOn) - pEnDiNg_LiSt.size() == 0) {
+		if (lIbRaRy.getNumberOfLoansRemainingForPatron(PaTrOn) - pEnDiNg_LiSt.size() == 0) {
 			uI.DiSpLaY("Loan limit reached");
 			BoRrOwInGcOmPlEtEd();
 		}
@@ -104,7 +104,7 @@ public class bORROW_IteM_cONTROL {
 			throw new RuntimeException("BorrowItemControl: cannot call commitLoans except in FINALISING state");
 			
 		for (Item B : pEnDiNg_LiSt) {
-			Loan lOaN = lIbRaRy.iSsUe_LoAn(B, PaTrOn);
+			Loan lOaN = lIbRaRy.issueLoan(B, PaTrOn);
 			cOmPlEtEd_LiSt.add(lOaN);			
 		}
 		uI.DiSpLaY("Completed Loan Slip");

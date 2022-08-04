@@ -13,7 +13,7 @@ public class fIX_iTeM_cONTROL {
 
 
 	public fIX_iTeM_cONTROL() {
-		this.LiBrArY = Library.GeTiNsTaNcE();
+		this.LiBrArY = Library.getInstance();
 		StAtE = CoNtRoL_StAtE.INITIALISED;
 	}
 	
@@ -32,7 +32,7 @@ public class fIX_iTeM_cONTROL {
 		if (!StAtE.equals(CoNtRoL_StAtE.READY)) 
 			throw new RuntimeException("FixItemControl: cannot call itemScanned except in READY state");
 			
-		CuRrEnT_ItEm = LiBrArY.gEt_ItEm(iTEm_Id);
+		CuRrEnT_ItEm = LiBrArY.getItem(iTEm_Id);
 		
 		if (CuRrEnT_ItEm == null) {
 			Ui.dIsPlAy("Invalid itemId");
@@ -53,7 +53,7 @@ public class fIX_iTeM_cONTROL {
 			throw new RuntimeException("FixItemControl: cannot call itemInspected except in INSPECTING state");
 		
 		if (mUsT_FiX) 
-			LiBrArY.RePaIrITem(CuRrEnT_ItEm);
+			LiBrArY.repairItem(CuRrEnT_ItEm);
 		
 		CuRrEnT_ItEm = null;
 		Ui.SeTrEaDy();
