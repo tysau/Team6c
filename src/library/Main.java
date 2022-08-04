@@ -53,7 +53,7 @@ public class Main {
 		try {			
 			SCANNER = new Scanner(System.in);
 			LIBRARY = Library.GeTiNsTaNcE();
-			CALENDAR = Calendar.GeTiNsTaNcE();
+			CALENDAR = Calendar.getInstance();
 			SIMPLEDATEFORMAT = new SimpleDateFormat("dd/MM/yyyy");
 	
 			for (Patron PAtrON : LIBRARY.lIsT_PaTrOnS()) {
@@ -68,7 +68,7 @@ public class Main {
 			
 			while (!fInIsHeD) {
 				
-				output("\n" + SIMPLEDATEFORMAT.format(CALENDAR.GeTdAtE()));
+				output("\n" + SIMPLEDATEFORMAT.format(CALENDAR.getDate()));
 				String ChOiCe = input(MENU);
 				
 				switch (ChOiCe.toUpperCase()) {
@@ -180,9 +180,9 @@ public class Main {
 	private static void INCREMENT_DATE() {
 		try {
 			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
-			CALENDAR.InCrEmENtDaTe(days);
+			CALENDAR.incrementDate(days);
 			LIBRARY.UpDaTe_CuRrEnT_LoAnS_StAtUs();
-			output(SIMPLEDATEFORMAT.format(CALENDAR.GeTdAtE()));
+			output(SIMPLEDATEFORMAT.format(CALENDAR.getDate()));
 			
 		} catch (NumberFormatException e) {
 			 output("\nInvalid number of days\n");

@@ -9,7 +9,7 @@ import java.util.Map;
 public class Patron implements Serializable {
 
 	private long PaTrOn_Id;
-	private String FiRsT_NaMe;
+	private String firstName;
 	private String LaSt_NaMe;
 	private String EmAiL_AdDrEsS;
 	private long PhOnE_NuMbEr;
@@ -19,7 +19,7 @@ public class Patron implements Serializable {
 
 	
 	public Patron(String fIrSt_nAmE, String lAsT_nAmE, String eMaIl_aDdReSs, long pHoNe_nUmBeR, long mEmBeR_iD) {
-		this.FiRsT_NaMe = fIrSt_nAmE;
+		this.firstName = fIrSt_nAmE;
 		this.LaSt_NaMe = lAsT_nAmE;
 		this.EmAiL_AdDrEsS = eMaIl_aDdReSs;
 		this.PhOnE_NuMbEr = pHoNe_nUmBeR;
@@ -32,7 +32,7 @@ public class Patron implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Patron:  ").append(PaTrOn_Id).append("\n")
-		  .append("  Name:  ").append(FiRsT_NaMe).append(" ").append(LaSt_NaMe).append("\n")
+		  .append("  Name:  ").append(firstName).append(" ").append(LaSt_NaMe).append("\n")
 		  .append("  Email: ").append(EmAiL_AdDrEsS).append("\n")
 		  .append("  Phone: ").append(PhOnE_NuMbEr)
 		  .append("\n")
@@ -90,7 +90,7 @@ public class Patron implements Serializable {
 
 	
 	public String GeT_FiRsT_NaMe() {
-		return FiRsT_NaMe;
+		return firstName;
 	}
 
 
