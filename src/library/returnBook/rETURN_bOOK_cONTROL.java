@@ -45,14 +45,14 @@ public class rETURN_bOOK_cONTROL {
 		}		
 		CurrENT_loan = lIbRaRy.getLoanByItemId(bOoK_iD);	
 		double Over_Due_Fine = 0.0;
-		if (CurrENT_loan.Is_OvEr_DuE()) 
+		if (CurrENT_loan.isOverDue()) 
 			Over_Due_Fine = lIbRaRy.calculateOverDueFine(CurrENT_loan);
 		
 		Ui.DiSpLaY("Inspecting");
 		Ui.DiSpLaY(cUrReNt_bOoK.toString());
 		Ui.DiSpLaY(CurrENT_loan.toString());
 		
-		if (CurrENT_loan.Is_OvEr_DuE()) 
+		if (CurrENT_loan.isOverDue()) 
 			Ui.DiSpLaY(String.format("\nOverdue fine : $%.2f", Over_Due_Fine));
 		
 		Ui.SeTiNsPeCtInG();

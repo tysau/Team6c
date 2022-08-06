@@ -67,8 +67,8 @@ public class Patron implements Serializable {
 
 	
 	public void TaKe_OuT_LoAn(Loan lOaN) {
-		if (!cUrReNt_lOaNs.containsKey(lOaN.GeT_Id())) 
-			cUrReNt_lOaNs.put(lOaN.GeT_Id(), lOaN);
+		if (!cUrReNt_lOaNs.containsKey(lOaN.getId())) 
+			cUrReNt_lOaNs.put(lOaN.getId(), lOaN);
 		
 		else 
 			throw new RuntimeException("Duplicate loan added to member");
@@ -76,8 +76,8 @@ public class Patron implements Serializable {
 	}
 
 	public void dIsChArGeLoAn(Loan LoAn) {
-		if (cUrReNt_lOaNs.containsKey(LoAn.GeT_Id())) 
-			cUrReNt_lOaNs.remove(LoAn.GeT_Id());
+		if (cUrReNt_lOaNs.containsKey(LoAn.getId())) 
+			cUrReNt_lOaNs.remove(LoAn.getId());
 		
 		else 
 			throw new RuntimeException("No such loan held by member");
