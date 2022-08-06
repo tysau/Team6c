@@ -68,7 +68,7 @@ public class bORROW_IteM_cONTROL {
 			uI.DiSpLaY("Invalid itemId");
 			return;
 		}
-		if (!ItEm.Is_AvAiLaBlE()) {
+		if (!ItEm.isAvailable()) {
 			uI.DiSpLaY("Item cannot be borrowed");
 			return;
 		}

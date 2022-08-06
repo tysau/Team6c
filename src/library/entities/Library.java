@@ -123,7 +123,7 @@ public class Library implements Serializable {
 	
 	public Item aDd_ItEm(String a, String t, String c, ItemType i) {		
 		Item ItEm = new Item(a, t, c, i, gEt_NeXt_ItEm_Id());
-		CaTaLoG.put(ItEm.GeTiD(), ItEm);		
+		CaTaLoG.put(ItEm.getId(), ItEm);		
 		return ItEm;
 	}
 
@@ -171,9 +171,9 @@ public class Library implements Serializable {
 		Date dueDate = Calendar.getInstance().getDueDate(loanPeriod);
 		Loan loan = new Loan(gEt_NeXt_LoAn_Id(), iTeM, pAtRoN, dueDate);
 		pAtRoN.TaKe_OuT_LoAn(loan);
-		iTeM.TaKeOuT();
+		iTeM.takeOut();
 		LoAnS.put(loan.GeT_Id(), loan);
-		CuRrEnT_LoAnS.put(iTeM.GeTiD(), loan);
+		CuRrEnT_LoAnS.put(iTeM.getId(), loan);
 		return loan;
 	}
 	
@@ -204,13 +204,13 @@ public class Library implements Serializable {
 		PAtrON.AdD_FiNe(oVeR_DuE_FiNe);	
 		
 		PAtrON.dIsChArGeLoAn(cUrReNt_LoAn);
-		itEM.TaKeBaCk(iS_dAmAgEd);
+		itEM.takeBack(iS_dAmAgEd);
 		if (iS_dAmAgEd) {
 			PAtrON.AdD_FiNe(damageFee);
-			DaMaGeD_ItEmS.put(itEM.GeTiD(), itEM);
+			DaMaGeD_ItEmS.put(itEM.getId(), itEM);
 		}
 		cUrReNt_LoAn.DiScHaRgE();
-		CuRrEnT_LoAnS.remove(itEM.GeTiD());
+		CuRrEnT_LoAnS.remove(itEM.getId());
 	}
 
 
@@ -222,9 +222,9 @@ public class Library implements Serializable {
 
 
 	public void RePaIrITem(Item cUrReNt_ItEm) {
-		if (DaMaGeD_ItEmS.containsKey(cUrReNt_ItEm.GeTiD())) {
-			cUrReNt_ItEm.rEpAiR();
-			DaMaGeD_ItEmS.remove(cUrReNt_ItEm.GeTiD());
+		if (DaMaGeD_ItEmS.containsKey(cUrReNt_ItEm.getId())) {
+			cUrReNt_ItEm.repair();
+			DaMaGeD_ItEmS.remove(cUrReNt_ItEm.getId());
 		}
 		else 
 			throw new RuntimeException("Library: repairItem: item is not damaged");
