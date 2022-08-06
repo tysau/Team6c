@@ -38,7 +38,7 @@ public class fIX_iTeM_cONTROL {
 			Ui.dIsPlAy("Invalid itemId");
 			return;
 		}
-		if (!CuRrEnT_ItEm.Is_DaMaGeD()) {
+		if (!CuRrEnT_ItEm.isDamaged()) {
 			Ui.dIsPlAy("Item has not been damaged");
 			return;
 		}
