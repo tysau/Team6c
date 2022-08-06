@@ -11,8 +11,8 @@ public class Item implements Serializable {
     private String callNumber;
     private long id;
 	
-    private enum itemState { AVAILABLE, ON_LOAN, DAMAGED, RESERVED };
-    private itemState state;
+    private enum ItemState { AVAILABLE, ON_LOAN, DAMAGED, RESERVED };
+    private ItemState state;
 	
 	
     public Item(String author, String title, String callNumber, ItemType itemType, long id) {
@@ -21,7 +21,7 @@ public class Item implements Serializable {
         this.title = title;
         this.callNumber = callNumber;
         this.id = id;
-        this.state = itemState.AVAILABLE;
+        this.state = ItemState.AVAILABLE;
 	}
 	
     public String toString() {
@@ -51,23 +51,23 @@ public class Item implements Serializable {
 
 	
     public boolean isAvailable() {
-	return state == itemState.AVAILABLE;
+	return state == ItemState.AVAILABLE;
 	}
 
 	
     public boolean isOnLoan() {
-	return state == itemState.ON_LOAN;
+	return state == ItemState.ON_LOAN;
 	}
 
 	
     public boolean isDamaged() {
-	return state == itemState.DAMAGED;
+	return state == ItemState.DAMAGED;
 	}
 
 	
     public void takeOut() {
-	if (state.equals(itemState.AVAILABLE)) {
-	    state = itemState.ON_LOAN;
+	if (state.equals(ItemState.AVAILABLE)) {
+	    state = ItemState.ON_LOAN;
         }
 		
 	else {
@@ -77,12 +77,12 @@ public class Item implements Serializable {
 
 
     public void takeBack(boolean damaged) {
-	if (state.equals(itemState.ON_LOAN)){ 
+	if (state.equals(ItemState.ON_LOAN)){ 
 	    if (damaged){
-	        state = itemState.DAMAGED;
+	        state = ItemState.DAMAGED;
                 }
             else{ 
-		state = itemState.AVAILABLE;	
+		state = ItemState.AVAILABLE;	
                 }
         }
 		
@@ -94,8 +94,8 @@ public class Item implements Serializable {
 
 	
     public void repair() {
-        if (state.equals(itemState.DAMAGED)) {
-	    state = itemState.AVAILABLE;
+        if (state.equals(ItemState.DAMAGED)) {
+	    state = ItemState.AVAILABLE;
             }
 	else {
 	    throw new RuntimeException(String.format("Item: cannot repair while Item is in state: %s", state));
