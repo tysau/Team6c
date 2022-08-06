@@ -37,7 +37,7 @@ public class Loan implements Serializable {
 	}
 
 	
-	public Long GeT_Id() {
+	public Long getId() {
 		return LoAn_Id;
 	}
 
@@ -52,8 +52,8 @@ public class Loan implements Serializable {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Loan:  ").append(LoAn_Id).append("\n")
-		  .append("  Borrower ").append(PaTrON.GeT_ID()).append(" : ")
-		  .append(PaTrON.GeT_FiRsT_NaMe()).append(" ").append(PaTrON.GeT_LaSt_NaMe()).append("\n")
+		  .append("  Borrower ").append(PaTrON.getId()).append(" : ")
+		  .append(PaTrON.getFirstName()).append(" ").append(PaTrON.getLastName()).append("\n")
 		  .append("  Item ").append(ItEm.GeTiD()).append(" : " )
 		  .append(ItEm.GeTtYpE()).append("\n")
 		  .append(ItEm.GeTtItLe()).append("\n")
