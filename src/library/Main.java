@@ -52,15 +52,15 @@ public class Main {
 	public static void main(String[] args) {		
 		try {			
 			SCANNER = new Scanner(System.in);
-			LIBRARY = Library.GeTiNsTaNcE();
+			LIBRARY = Library.getInstance();
 			CALENDAR = Calendar.getInstance();
 			SIMPLEDATEFORMAT = new SimpleDateFormat("dd/MM/yyyy");
 	
-			for (Patron PAtrON : LIBRARY.lIsT_PaTrOnS()) {
+			for (Patron PAtrON : LIBRARY.listPatrons()) {
 				output(PAtrON);
 			}
 			output(" ");
-			for (Item iTEm : LIBRARY.lIsT_ItEmS()) {
+			for (Item iTEm : LIBRARY.listItems()) {
 				output(iTEm);
 			}
 						
@@ -122,7 +122,7 @@ public class Main {
 					break;
 				}
 				
-				Library.SaVe();
+				Library.save();
 			}			
 		} catch (RuntimeException e) {
 			output(e);
@@ -130,14 +130,15 @@ public class Main {
 		output("\nEnded\n");
 	}	
 
-		private static void PAY_FINES() {
+	
+	private static void PAY_FINES() {
 		new PayFineUI(new pAY_fINE_cONTROL()).RuN();		
 	}
 
 
 	private static void LIST_CURRENT_LOANS() {
 		output("");
-		for (Loan loan : LIBRARY.lISt_CuRrEnT_LoAnS()) {
+		for (Loan loan : LIBRARY.listCurrentLoans()) {
 			output(loan + "\n");
 		}		
 	}
@@ -146,7 +147,7 @@ public class Main {
 
 	private static void LIST_ITEMS() {
 		output("");
-		for (Item book : LIBRARY.lIsT_ItEmS()) {
+		for (Item book : LIBRARY.listItems()) {
 			output(book + "\n");
 		}		
 	}
@@ -155,7 +156,7 @@ public class Main {
 
 	private static void LIST_PATRONS() {
 		output("");
-		for (Patron member : LIBRARY.lIsT_PaTrOnS()) {
+		for (Patron member : LIBRARY.listPatrons()) {
 			output(member + "\n");
 		}		
 	}
@@ -181,7 +182,7 @@ public class Main {
 		try {
 			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
 			CALENDAR.incrementDate(days);
-			LIBRARY.UpDaTe_CuRrEnT_LoAnS_StAtUs();
+			LIBRARY.updateCurrentLoansStatus();
 			output(SIMPLEDATEFORMAT.format(CALENDAR.getDate()));
 			
 		} catch (NumberFormatException e) {
@@ -238,7 +239,7 @@ public class Main {
 		String AuThOr = input("Enter author: ");
 		String TiTlE  = input("Enter title: ");
 		String CaLl_NuMbEr = input("Enter call number: ");
-		Item BoOk = LIBRARY.aDd_ItEm(AuThOr, TiTlE, CaLl_NuMbEr, itemType);
+		Item BoOk = LIBRARY.addItem(AuThOr, TiTlE, CaLl_NuMbEr, itemType);
 		output("\n" + BoOk + "\n");
 		
 	}
@@ -250,7 +251,7 @@ public class Main {
 			String LaSt_NaMe = input("Enter last name: ");
 			String EmAiL_AdDrEsS = input("Enter email address: ");
 			long PhOnE_NuMbEr = Long.valueOf(input("Enter phone number: ")).intValue();
-			Patron PaTrOn = LIBRARY.aDd_PaTrOn(FiRsT_NaMe, LaSt_NaMe, EmAiL_AdDrEsS, PhOnE_NuMbEr);
+			Patron PaTrOn = LIBRARY.addPatron(FiRsT_NaMe, LaSt_NaMe, EmAiL_AdDrEsS, PhOnE_NuMbEr);
 			output("\n" + PaTrOn + "\n");
 			
 		} catch (NumberFormatException e) {
