@@ -55,7 +55,7 @@ public class Loan implements Serializable {
 		  .append("  Borrower ").append(PaTrON.GeT_ID()).append(" : ")
 		  .append(PaTrON.GeT_FiRsT_NaMe()).append(" ").append(PaTrON.GeT_LaSt_NaMe()).append("\n")
 		  .append("  Item ").append(ItEm.getId()).append(" : " )
-		  .append(ItEm.getType()).append("\n")
+		  .append(ItEm.getItemType()).append("\n")
 		  .append(ItEm.getTitle()).append("\n")
 		  .append("  DueDate: ").append(sdf.format(DaTe)).append("\n")
 		  .append("  State: ").append(StAtE);		

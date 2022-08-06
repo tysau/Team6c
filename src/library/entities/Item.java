@@ -44,7 +44,7 @@ public class Item implements Serializable {
 	return title;
     }
 
-    public ItemType getType() {
+    public ItemType getItemType() {
 	return type;
     }
 
