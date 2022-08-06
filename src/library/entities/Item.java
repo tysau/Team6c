@@ -22,7 +22,7 @@ public class Item implements Serializable {
         this.callNumber = callNumber;
         this.id = id;
         this.state = ItemState.AVAILABLE;
-	}
+    }
 	
     public String toString() {
         StringBuilder Sb = new StringBuilder();
@@ -34,35 +34,35 @@ public class Item implements Serializable {
 	  .append("  State:  ").append(state);
 		
         return Sb.toString();
-	}
+    }
 
     public Long getId() {
 	return id;
-	}
+    }
 
     public String getTitle() {
 	return title;
-	}
+    }
 
     public ItemType getType() {
 	return type;
-	}
+    }
 
 
 	
     public boolean isAvailable() {
 	return state == ItemState.AVAILABLE;
-	}
+    }
 
 	
     public boolean isOnLoan() {
 	return state == ItemState.ON_LOAN;
-	}
+    }
 
 	
     public boolean isDamaged() {
 	return state == ItemState.DAMAGED;
-	}
+    }
 
 	
     public void takeOut() {
@@ -72,35 +72,34 @@ public class Item implements Serializable {
 		
 	else {
 	   throw new RuntimeException(String.format("Item: cannot borrow item while item is in state: %s", state));	
-           }
-	}
+        }
+    }
 
 
     public void takeBack(boolean damaged) {
 	if (state.equals(ItemState.ON_LOAN)){ 
 	    if (damaged){
 	        state = ItemState.DAMAGED;
-                }
+            }
             else{ 
 		state = ItemState.AVAILABLE;	
-                }
+            }
         }
 		
 	else {
 	   throw new RuntimeException(String.format("Item: cannot return item while item is in state: %s", state));
-           }
-				
-	}
+        }				
+    }
 
 	
     public void repair() {
         if (state.equals(ItemState.DAMAGED)) {
 	    state = ItemState.AVAILABLE;
-            }
+        }
 	else {
 	    throw new RuntimeException(String.format("Item: cannot repair while Item is in state: %s", state));
-            }	
-	}
+        }	
+    }
 
 
 }
