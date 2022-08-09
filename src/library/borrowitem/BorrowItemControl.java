@@ -11,8 +11,8 @@ public class BorrowItemControl {
 	
 	private BorrowItemUI ui;
 	
-	private Library library;
-	private Patron patron;
+	private Library Library;
+	private Patron Patron;
 	private enum CONTROL_STATE { initialised, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
 	private CONTROL_STATE state;
 	
@@ -22,12 +22,12 @@ public class BorrowItemControl {
 	
 	
 	public BorrowItemControl() {
-		this.library = Library.getInstance();
+		this.Library = Library.getInstance();
 		state = CONTROL_STATE.initialised;
 	}
 	
 
-	public void SeT_Ui(BorrowItemUI ui) {
+	public void setUI(BorrowItemUI ui) {
 		if (!state.equals(CONTROL_STATE.initialised)) 
 			throw new RuntimeException("BorrowItemControl: cannot call setUI except in INITIALISED state");
 			
@@ -41,12 +41,12 @@ public class BorrowItemControl {
 		if (!state.equals(CONTROL_STATE.READY)) 
 			throw new RuntimeException("BorrowItemControl: cannot call cardSwiped except in READY state");
 			
-		patron = library.getPatron(patronId);
-		if (patron == null) {
+		Patron = Library.getPatron(patronId);
+		if (Patron == null) {
 			ui.display("Invalid patronId");
 			return;
 		}
-		if (library.canPatronBorrow(patron)) {
+		if (Library.canPatronBorrow(Patron)) {
 			pendingList = new ArrayList<>();
 			ui.setScanning();
 			state = CONTROL_STATE.SCANNING; 
@@ -63,7 +63,7 @@ public class BorrowItemControl {
 		if (!state.equals(CONTROL_STATE.SCANNING)) 
 			throw new RuntimeException("BorrowItemControl: cannot call itemScanned except in SCANNING state");
 			
-		item = library.getItem(itemId);
+		item = Library.getItem(itemId);
 		if (item == null) {
 			ui.display("Invalid itemId");
 			return;
@@ -76,7 +76,7 @@ public class BorrowItemControl {
 		for (Item item : pendingList) 
 			ui.display(item);
 		
-		if (library.getNumberOfLoansRemainingForPatron(patron) - pendingList.size() == 0) {
+		if (Library.getNumberOfLoansRemainingForPatron(Patron) - pendingList.size() == 0) {
 			ui.display("Loan limit reached");
 			borrowingCompleted();
 		}
@@ -104,7 +104,7 @@ public class BorrowItemControl {
 			throw new RuntimeException("BorrowItemControl: cannot call commitLoans except in FINALISING state");
 			
 		for (Item B : pendingList) {
-			Loan loan = library.issueLoan(B, patron);
+			Loan loan = Library.issueLoan(B, Patron);
 			completedList.add(loan);			
 		}
 		ui.display("Completed Loan Slip");

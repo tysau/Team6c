@@ -15,7 +15,7 @@ public class BorrowItemUI {
 		this.CoNtRoL = control;
 		ScAnNeR = new Scanner(System.in);
 		StaTe = uI_STaTe.INITIALISED;
-		control.SeT_Ui(this);
+		control.setUI(this);
 	}
 
 	
