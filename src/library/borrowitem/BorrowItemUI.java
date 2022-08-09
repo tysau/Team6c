@@ -45,12 +45,12 @@ public class BorrowItemUI {
 			case READY:
 				String PAT_STR = GeTiNpUt("Swipe patron card (press <enter> to cancel): ");
 				if (PAT_STR.length() == 0) {
-					CoNtRoL.CaNcEl();
+					CoNtRoL.cancel();
 					break;
 				}
 				try {
 					long PaTrOn_Id = Long.valueOf(PAT_STR).longValue();
-					CoNtRoL.CaRdSwIpEd(PaTrOn_Id);
+					CoNtRoL.cardSwiped(PaTrOn_Id);
 				}
 				catch (NumberFormatException e) {
 					DiSpLaYoUtPuT("Invalid Patron Id");
@@ -60,19 +60,19 @@ public class BorrowItemUI {
 				
 			case RESTRICTED:
 				GeTiNpUt("Press <any key> to cancel");
-				CoNtRoL.CaNcEl();
+				CoNtRoL.cancel();
 				break;
 			
 				
 			case SCANNING:
 				String Item_StRiNg_InPuT = GeTiNpUt("Scan Item (<enter> completes): ");
 				if (Item_StRiNg_InPuT.length() == 0) {
-					CoNtRoL.BoRrOwInGcOmPlEtEd();
+					CoNtRoL.borrowingCompleted();
 					break;
 				}
 				try {
 					int IiD = Integer.valueOf(Item_StRiNg_InPuT).intValue();
-					CoNtRoL.ItEmScAnNeD(IiD);
+					CoNtRoL.itemScanned(IiD);
 					
 				} catch (NumberFormatException e) {
 					DiSpLaYoUtPuT("Invalid Item Id");
@@ -83,10 +83,10 @@ public class BorrowItemUI {
 			case FINALISING:
 				String AnS = GeTiNpUt("Commit loans? (Y/N): ");
 				if (AnS.toUpperCase().equals("N")) {
-					CoNtRoL.CaNcEl();
+					CoNtRoL.cancel();
 					
 				} else {
-					CoNtRoL.CoMmIt_LoAnS();
+					CoNtRoL.commitLoans();
 					GeTiNpUt("Press <any key> to complete ");
 				}
 				break;
@@ -105,7 +105,7 @@ public class BorrowItemUI {
 	}
 
 
-	public void DiSpLaY(Object object) {
+	public void display(Object object) {
 		DiSpLaYoUtPuT(object);		
 	}
 
