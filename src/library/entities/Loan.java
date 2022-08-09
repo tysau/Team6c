@@ -40,7 +40,7 @@ public class Loan implements Serializable {
     public Long getId() {
         return loanId;
     }
-
+ 
     
     public Date getDueDate() {
         return dueDate;
@@ -52,8 +52,8 @@ public class Loan implements Serializable {
 
         StringBuilder sb = new StringBuilder();
         sb.append("Loan:  ").append(loanId).append("\n")
-          .append("  Borrower ").append(patron.GeT_ID()).append(" : ")
-          .append(patron.GeT_FiRsT_NaMe()).append(" ").append(patron.GeT_LaSt_NaMe()).append("\n")
+          .append("  Borrower ").append(patron.getId()).append(" : ")
+          .append(patron.getFirstName()).append(" ").append(patron.getLastName()).append("\n")
           .append("  Item ").append(item.getId()).append(" : " )
           .append(item.getItemType()).append("\n")
           .append(item.getTitle()).append("\n")
