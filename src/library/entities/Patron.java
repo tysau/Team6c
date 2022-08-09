@@ -61,7 +61,7 @@ public class Patron implements Serializable {
 	}
 
 	
-	public double finesOwed() {
+	public double getFinesOwed() {
 		return finesOwing;
 	}
 

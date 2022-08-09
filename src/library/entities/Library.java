@@ -139,7 +139,7 @@ public class Library implements Serializable {
 	if (patron.getNumberOfCurrentLoans() == LOAN_LIMIT ) {
             return false;
         }	
-	if (patron.finesOwed() >= MAX_FINES_ALLOWED) { 
+	if (patron.getFinesOwed() >= MAX_FINES_ALLOWED) { 
             return false;
         }			
 	for (Loan loan : patron.getLoans()) {
