@@ -90,19 +90,19 @@ public class Library implements Serializable {
     }
 
     private long getNextLoanId() {
-	    return nextLoanId++;
+        return nextLoanId++;
     }
 
     public List<Patron> listPatrons() {		
-	    return new ArrayList<Patron>(patrons.values()); 
+        return new ArrayList<Patron>(patrons.values()); 
     }
 
     public List<Item> listItems() {		
-	    return new ArrayList<Item>(catalog.values()); 
+        return new ArrayList<Item>(catalog.values()); 
     }
 
     public List<Loan> listCurrentLoans() {
-	    return new ArrayList<Loan>(currentLoans.values());
+        return new ArrayList<Loan>(currentLoans.values());
     }
 
     public Patron addPatron(String firstName, String lastName, String email, long phoneNo) {		
