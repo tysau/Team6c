@@ -7,7 +7,7 @@ import library.entities.Library;
 import library.entities.Loan;
 import library.entities.Patron;
 
-public class bORROW_IteM_cONTROL {
+public class BorrowItemControl {
 	
 	private BorrowItemUI uI;
 	
@@ -21,7 +21,7 @@ public class bORROW_IteM_cONTROL {
 	private Item ItEm;
 	
 	
-	public bORROW_IteM_cONTROL() {
+	public BorrowItemControl() {
 		this.lIbRaRy = Library.getInstance();
 		sTaTe = CONTROL_STATE.INITIALISED;
 	}

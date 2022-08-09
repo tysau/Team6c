@@ -7,11 +7,11 @@ public class BorrowItemUI {
 	public static enum uI_STaTe { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
 
 	private uI_STaTe StaTe;
-	private bORROW_IteM_cONTROL CoNtRoL;
+	private BorrowItemControl CoNtRoL;
 	private Scanner ScAnNeR;
 
 	
-	public BorrowItemUI(bORROW_IteM_cONTROL control) {
+	public BorrowItemUI(BorrowItemControl control) {
 		this.CoNtRoL = control;
 		ScAnNeR = new Scanner(System.in);
 		StaTe = uI_STaTe.INITIALISED;
