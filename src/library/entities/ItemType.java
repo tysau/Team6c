@@ -12,13 +12,13 @@ public enum ItemType {
     static {
         VALUE_REPR_MAP.put(ItemType.BOOK, "Book");
         VALUE_REPR_MAP.put(ItemType.DVD, "DVD");
-	    VALUE_REPR_MAP.put(ItemType.VHS, "VHS Video cassette");
-	    VALUE_REPR_MAP.put(ItemType.CD, "CD Audio disk");
-	    VALUE_REPR_MAP.put(ItemType.CASSETTE, "Audio cassette");
+        VALUE_REPR_MAP.put(ItemType.VHS, "VHS Video cassette");
+        VALUE_REPR_MAP.put(ItemType.CD, "CD Audio disk");
+        VALUE_REPR_MAP.put(ItemType.CASSETTE, "Audio cassette");
     }
 	
     public  String toString() {
-	    return VALUE_REPR_MAP.get(this);
+        return VALUE_REPR_MAP.get(this);
     }
 
 }
