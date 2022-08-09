@@ -94,21 +94,21 @@ public class Patron implements Serializable {
 	}
 
 
-	public void addFine(double fine) {
-		finesOwing += fine;
+	public void addFine(double fineAmount) {
+		finesOwing += fineAmount;
 	}
 	
-	public double payFine(double amount) {
-		if (amount < 0) 
+	public double payFine(double paymentAmount) {
+		if (paymentAmount < 0) 
 			throw new RuntimeException("Member.payFine: amount must be positive");
 		
 		double change = 0;
-		if (amount > finesOwing) {
-			change = amount - finesOwing;
+		if (paymentAmount > finesOwing) {
+			change = paymentAmount - finesOwing;
 			finesOwing = 0;
 		}
 		else 
-			finesOwing -= amount;
+			finesOwing -= paymentAmount;
 		
 		return change;
 	}
