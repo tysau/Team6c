@@ -48,17 +48,17 @@ public class Library implements Serializable {
     }
 	
     public static synchronized Library getInstance() {		
-	    if (self == null) {
+        if (self == null) {
             Path PATH = Paths.get(LIBRARY_FILE);			
             if (Files.exists(PATH)) {	
-		        try (ObjectInputStream libraryFile = new ObjectInputStream(new FileInputStream(LIBRARY_FILE));) {
+    	        try (ObjectInputStream libraryFile = new ObjectInputStream(new FileInputStream(LIBRARY_FILE));) {
                     self = (Library) libraryFile.readObject();
                     Calendar.getInstance().setDate(self.currentDate);
                     libraryFile.close();
-		        }
-		        catch (Exception e) {
+    	        }
+    	        catch (Exception e) {
                     throw new RuntimeException(e);
-		        }
+    	        }
             }
             else {
                 self = new Library();
@@ -106,52 +106,52 @@ public class Library implements Serializable {
     }
 
     public Patron addPatron(String firstName, String lastName, String email, long phoneNo) {		
-	    Patron patron = new Patron(firstName, lastName, email, phoneNo, getNextPatronId());
-	    patrons.put(patron.getId(), patron);		
-	    return patron;
+        Patron patron = new Patron(firstName, lastName, email, phoneNo, getNextPatronId());
+        patrons.put(patron.getId(), patron);		
+        return patron;
     }
 	
     public Item addItem(String a, String t, String c, ItemType i) {		
-	    Item item = new Item(a, t, c, i, getNextItemId());
-	    catalog.put(item.getId(), item);		
-	    return item;
+        Item item = new Item(a, t, c, i, getNextItemId());
+        catalog.put(item.getId(), item);		
+        return item;
     }
 
     public Patron getPatron(long patronId) {
-	    if (patrons.containsKey(patronId)) {
+        if (patrons.containsKey(patronId)) {
             return patrons.get(patronId);
         }
         return null;
     }
 
     public Item getItem(long itemId) {
-	    if (catalog.containsKey(itemId)) { 
+        if (catalog.containsKey(itemId)) { 
             return catalog.get(itemId);		
         }
         return null;
     }
 
     public int getLoanLimit() {
-	    return LOAN_LIMIT;
+        return LOAN_LIMIT;
     }
 
     public boolean canPatronBorrow(Patron patron) {		
-	    if (patron.getNumberOfCurrentLoans() == LOAN_LIMIT ) {
+        if (patron.getNumberOfCurrentLoans() == LOAN_LIMIT ) {
             return false;
         }	
-	    if (patron.getFinesOwed() >= MAX_FINES_ALLOWED) { 
+        if (patron.getFinesOwed() >= MAX_FINES_ALLOWED) { 
             return false;
         }			
-	    for (Loan loan : patron.getLoans()) {
+        for (Loan loan : patron.getLoans()) {
             if (loan.Is_OvEr_DuE()) { 
-		        return false;
+                return false;
             }
         }
         return true;	
     }
 	
     public int getNumberOfLoansRemainingForPatron(Patron patron) {		
-	    return LOAN_LIMIT - patron.getNumberOfCurrentLoans();
+        return LOAN_LIMIT - patron.getNumberOfCurrentLoans();
     }
 
     public Loan issueLoan(Item item, Patron patron) {
@@ -178,28 +178,28 @@ public class Library implements Serializable {
             double fine = daysOverDue * FINE_PER_DAY;
             return fine;
         }
-	    return 0.0;		
+        return 0.0;		
     }
 
     public void dischargeLoan(Loan currentLoan, boolean isDamaged) {
-	    Patron patron = currentLoan.GeT_PaTRon();
-	    Item item  = currentLoan.GeT_ITem();	
+        Patron patron = currentLoan.GeT_PaTRon();
+        Item item  = currentLoan.GeT_ITem();	
 
-	    double overDueFine = calculateOverDueFine(currentLoan);
-	    patron.addFine(overDueFine);		
+        double overDueFine = calculateOverDueFine(currentLoan);
+        patron.addFine(overDueFine);		
 	    
-	    patron.dischargeLoan(currentLoan);
-	    item.takeBack(isDamaged);
+        patron.dischargeLoan(currentLoan);
+        item.takeBack(isDamaged);
         if (isDamaged) {
             patron.addFine(DAMAGE_FEE);
             damagedItems.put(item.getId(), item);
-	    }
-	    currentLoan.DiScHaRgE();
-	    currentLoans.remove(item.getId());
+        }
+        currentLoan.DiScHaRgE();
+        currentLoans.remove(item.getId());
     }
 
     public void updateCurrentLoansStatus() {
-	    for (Loan loan : currentLoans.values()) {
+        for (Loan loan : currentLoans.values()) {
             loan.UpDaTeStAtUs();
         }
     }
@@ -211,7 +211,7 @@ public class Library implements Serializable {
         }
         else {
             throw new RuntimeException("Library: repairItem: item is not damaged");	
-	    }
+        }
     }
     
 }
