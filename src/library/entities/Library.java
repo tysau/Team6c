@@ -142,9 +142,10 @@ public class Library implements Serializable {
         if (patron.getFinesOwed() >= MAX_FINES_ALLOWED) { 
             return false;
         }			
-        for (Loan loan : patron.getLoans()) {
-            if (loan.Is_OvEr_DuE()) { 
-                return false;
+
+	for (Loan loan : patron.getLoans()) {
+            if (loan.isOverDue()) { 
+		return false;
             }
         }
         return true;	
@@ -169,12 +170,12 @@ public class Library implements Serializable {
             return currentLoans.get(itemId);
         }
 	
-    return null;
+        return null;
     }
 	
     public double calculateOverDueFine(Loan loan) {
-        if (loan.Is_OvEr_DuE()) {
-            long daysOverDue = Calendar.getInstance().getDaysDifference(loan.GeT_DuE_DaTe());
+        if (loan.isOverDue()) {
+            long daysOverDue = Calendar.getInstance().getDaysDifference(loan.getDueDate());
             double fine = daysOverDue * FINE_PER_DAY;
             return fine;
         }
@@ -182,8 +183,8 @@ public class Library implements Serializable {
     }
 
     public void dischargeLoan(Loan currentLoan, boolean isDamaged) {
-        Patron patron = currentLoan.GeT_PaTRon();
-        Item item  = currentLoan.GeT_ITem();	
+        Patron patron = currentLoan.getPatron();
+        Item item  = currentLoan.getItem();	
 
         double overDueFine = calculateOverDueFine(currentLoan);
         patron.addFine(overDueFine);		
@@ -194,13 +195,13 @@ public class Library implements Serializable {
             patron.addFine(DAMAGE_FEE);
             damagedItems.put(item.getId(), item);
         }
-        currentLoan.DiScHaRgE();
+        currentLoan.discharge();
         currentLoans.remove(item.getId());
     }
 
     public void updateCurrentLoansStatus() {
         for (Loan loan : currentLoans.values()) {
-            loan.UpDaTeStAtUs();
+            loan.updateStatus();
         }
     }
 
