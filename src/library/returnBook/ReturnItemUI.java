@@ -30,8 +30,9 @@ public class ReturnItemUI {
                     
                     case READY:
                         String bookInputString = getInput("Scan Book (<enter> completes): ");
-                        if (bookInputString.length() == 0) 
+                        if (bookInputString.length() == 0){ 
                             control.sCaNnInG_cOmPlEtEd();
+                        }
                         else {
                             try {
                                 long bookId = Long.valueOf(bookInputString).longValue();
@@ -45,9 +46,10 @@ public class ReturnItemUI {
                     case INSPECTING:
                         String response = getInput("Is book damaged? (Y/N): ");
                         boolean isDamaged = false;
-                        if (response.toUpperCase().equals("Y")) 					
+                        if (response.toUpperCase().equals("Y")) {					
                             isDamaged = true;
-			
+                        }
+                        
                         control.dIsChArGe_lOaN(isDamaged);
 			
                     case COMPLETED:
