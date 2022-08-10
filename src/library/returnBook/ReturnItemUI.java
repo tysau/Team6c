@@ -20,82 +20,76 @@ public class ReturnItemUI {
 
 
 	public void run() {		
-		displayOutput("Return Book Use Case UI\n");
-		
-		while (true) {
+            displayOutput("Return Book Use Case UI\n");
+            
+            while (true) {
+                switch (uiState) {
+                    
+                    case INITIALISED:
+                        break;
+                    
+                    case READY:
+                        String bookInputString = getInput("Scan Book (<enter> completes): ");
+                        if (bookInputString.length() == 0) 
+                            control.sCaNnInG_cOmPlEtEd();
+                        else {
+                            try {
+                                long bookId = Long.valueOf(bookInputString).longValue();
+                                control.bOoK_sCaNnEd(bookId);
+                            }
+                            catch (NumberFormatException e) {
+                                displayOutput("Invalid bookId");
+                            }
+                        }
+                        break;				
+                    case INSPECTING:
+                        String response = getInput("Is book damaged? (Y/N): ");
+                        boolean isDamaged = false;
+                        if (response.toUpperCase().equals("Y")) 					
+                            isDamaged = true;
 			
-			switch (uiState) {
+                        control.dIsChArGe_lOaN(isDamaged);
 			
-			case INITIALISED:
-				break;
-				
-			case READY:
-				String bookInputString = getInput("Scan Book (<enter> completes): ");
-				if (bookInputString.length() == 0) 
-					control.sCaNnInG_cOmPlEtEd();
-				
-				else {
-					try {
-						long bookId = Long.valueOf(bookInputString).longValue();
-						control.bOoK_sCaNnEd(bookId);
-					}
-					catch (NumberFormatException e) {
-						displayOutput("Invalid bookId");
-					}					
-				}
-				break;				
-				
-			case INSPECTING:
-				String response = getInput("Is book damaged? (Y/N): ");
-				boolean isDamaged = false;
-				if (response.toUpperCase().equals("Y")) 					
-					isDamaged = true;
-				
-				control.dIsChArGe_lOaN(isDamaged);
+                    case COMPLETED:
+                        displayOutput("Return processing complete");
+                        return;
 			
-			case COMPLETED:
-				displayOutput("Return processing complete");
-				return;
-			
-			default:
-				displayOutput("Unhandled state");
-				throw new RuntimeException("ReturnBookUI : unhandled state :" + uiState);			
-			}
-		}
-	}
+                    default:
+                        displayOutput("Unhandled state");
+                        throw new RuntimeException("ReturnBookUI : unhandled state :" + uiState);			
+                }
+            }
+        }
 
 	
-	private String getInput(String prompt) {
-		System.out.print(prompt);
-		return scanner.nextLine();
-	}	
+        private String getInput(String prompt) {
+            System.out.print(prompt);
+            return scanner.nextLine();
+        }	
 		
 		
-	private void displayOutput(Object displayObject) {
-		System.out.println(displayObject);
-	}
+        private void displayOutput(Object displayObject) {
+            System.out.println(displayObject);
+        }
 	
 			
-	public void display(Object displayObject) {
-		displayOutput(displayObject);
-	}
+        public void display(Object displayObject) {
+            displayOutput(displayObject);
+        }
 	
-	public void setReady() {
-		uiState = ReturnItemUIState.READY;
-		
-	}
+        public void setReady() {
+            uiState = ReturnItemUIState.READY;
+        }
 
 
-	public void setInspecting() {
-		uiState = ReturnItemUIState.INSPECTING;
-		
-	}
+        public void setInspecting() {
+            uiState = ReturnItemUIState.INSPECTING;
+        }
 
 
-	public void setCompleted() {
-		uiState = ReturnItemUIState.COMPLETED;
-		
-	}
+        public void setCompleted() {
+            uiState = ReturnItemUIState.COMPLETED;
+        }
 
-	
+
 }
