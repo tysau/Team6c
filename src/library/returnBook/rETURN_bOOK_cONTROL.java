@@ -5,7 +5,7 @@ import library.entities.Loan;
 
 public class rETURN_bOOK_cONTROL {
 
-	private ReturnBookUI Ui;
+	private ReturnItemUI Ui;
 	private enum cOnTrOl_sTaTe { INITIALISED, READY, INSPECTING };
 	private cOnTrOl_sTaTe sTaTe;
 	
@@ -19,7 +19,7 @@ public class rETURN_bOOK_cONTROL {
 	}
 	
 	
-	public void sEt_uI(ReturnBookUI uI) {
+	public void sEt_uI(ReturnItemUI uI) {
 		if (!sTaTe.equals(cOnTrOl_sTaTe.INITIALISED)) 
 			throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
 		
