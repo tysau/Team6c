@@ -5,7 +5,7 @@ import library.entities.Loan;
 
 public class rETURN_bOOK_cONTROL {
 
-	private ReturnBookUI Ui;
+	private ReturnItemUI Ui;
 	private enum cOnTrOl_sTaTe { INITIALISED, READY, INSPECTING };
 	private cOnTrOl_sTaTe sTaTe;
 	
@@ -19,12 +19,12 @@ public class rETURN_bOOK_cONTROL {
 	}
 	
 	
-	public void sEt_uI(ReturnBookUI uI) {
+	public void sEt_uI(ReturnItemUI uI) {
 		if (!sTaTe.equals(cOnTrOl_sTaTe.INITIALISED)) 
 			throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
 		
 		this.Ui = uI;
-		uI.SeTrEaDy();
+		uI.setReady();
 		sTaTe = cOnTrOl_sTaTe.READY;		
 	}
 
@@ -36,11 +36,11 @@ public class rETURN_bOOK_cONTROL {
 		Item cUrReNt_bOoK = lIbRaRy.getItem(bOoK_iD);
 		
 		if (cUrReNt_bOoK == null) {
-			Ui.DiSpLaY("Invalid Book Id");
+			Ui.display("Invalid Book Id");
 			return;
 		}
 		if (!cUrReNt_bOoK.isOnLoan()) {
-			Ui.DiSpLaY("Book has not been borrowed");
+			Ui.display("Book has not been borrowed");
 			return;
 		}		
 		CurrENT_loan = lIbRaRy.getLoanByItemId(bOoK_iD);	
@@ -48,14 +48,14 @@ public class rETURN_bOOK_cONTROL {
 		if (CurrENT_loan.isOverDue()) 
 			Over_Due_Fine = lIbRaRy.calculateOverDueFine(CurrENT_loan);
 		
-		Ui.DiSpLaY("Inspecting");
-		Ui.DiSpLaY(cUrReNt_bOoK.toString());
-		Ui.DiSpLaY(CurrENT_loan.toString());
+		Ui.display("Inspecting");
+		Ui.display(cUrReNt_bOoK.toString());
+		Ui.display(CurrENT_loan.toString());
 		
 		if (CurrENT_loan.isOverDue()) 
-			Ui.DiSpLaY(String.format("\nOverdue fine : $%.2f", Over_Due_Fine));
+			Ui.display(String.format("\nOverdue fine : $%.2f", Over_Due_Fine));
 		
-		Ui.SeTiNsPeCtInG();
+		Ui.setInspecting();
 		sTaTe = cOnTrOl_sTaTe.INSPECTING;		
 	}
 
@@ -64,7 +64,7 @@ public class rETURN_bOOK_cONTROL {
 		if (!sTaTe.equals(cOnTrOl_sTaTe.READY)) 
 			throw new RuntimeException("ReturnBookControl: cannot call scanningComplete except in READY state");
 		
-		Ui.SeTCoMpLeTeD();
+		Ui.setCompleted();
 	}
 
 
@@ -74,7 +74,7 @@ public class rETURN_bOOK_cONTROL {
 		
 		lIbRaRy.dischargeLoan(CurrENT_loan, iS_dAmAgEd);
 		CurrENT_loan = null;
-		Ui.SeTrEaDy();
+		Ui.setReady();
 		sTaTe = cOnTrOl_sTaTe.READY;				
 	}
 
