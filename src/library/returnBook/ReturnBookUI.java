@@ -2,7 +2,7 @@ package library.returnBook;
 import java.util.Scanner;
 
 
-public class ReturnItemUI {
+public class ReturnBookUI {
 
         private enum ReturnItemUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
@@ -11,7 +11,7 @@ public class ReturnItemUI {
         private ReturnItemUIState uiState;
 
 	
-        public ReturnItemUI(rETURN_bOOK_cONTROL returnItemControl) {
+        public ReturnBookUI(rETURN_bOOK_cONTROL returnItemControl) {
             this.control = control;
             scanner = new Scanner(System.in);
             uiState = ReturnItemUIState.INITIALISED;
