@@ -85,7 +85,7 @@ public class bORROW_IteM_cONTROL {
 	
 	public void BoRrOwInGcOmPlEtEd() {
 		if (pEnDiNg_LiSt.size() == 0) 
-			CaNcEl();
+			cancel();
 		
 		else {
 			uI.display("\nFinal Borrowing List");
@@ -116,7 +116,7 @@ public class bORROW_IteM_cONTROL {
 	}
 
 	
-	public void CaNcEl() {
+	public void cancel() {
 		uI.setCancelled();
 		sTaTe = CONTROL_STATE.CANCELLED;
 	}

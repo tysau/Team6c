@@ -4,55 +4,46 @@ import java.util.Scanner;
 
 public class BorrowItemUI {
 	
-	public static enum BorrowItemUIState { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
+    public static enum BorrowItemUIState { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
+    private BorrowItemUIState uiState;
+    private bORROW_IteM_cONTROL control;
+    private Scanner scanner;
 
-	private BorrowItemUIState uiState;
-	private bORROW_IteM_cONTROL control;
-	private Scanner scanner;
-
+    public BorrowItemUI(bORROW_IteM_cONTROL borrowItemControl) {
+        this.control = borrowItemControl;
+        scanner = new Scanner(System.in);
+        uiState = BorrowItemUIState.INITIALISED;
+        borrowItemControl.setUI(this);
+   }
 	
-	public BorrowItemUI(bORROW_IteM_cONTROL borrowItemControl) {
-		this.control = borrowItemControl;
-		scanner = new Scanner(System.in);
-		uiState = BorrowItemUIState.INITIALISED;
-		borrowItemControl.setUI(this);
-	}
-
-	
-	private String getInput(String prompt) {
-		System.out.print(prompt);
-		return scanner.nextLine();
-	}	
+   private String getInput(String prompt) {
+       System.out.print(prompt);
+       return scanner.nextLine();
+    }			
 		
-		
-	private void displayOutput(Object object) {
-		System.out.println(object);
-	}
-	
+    private void displayOutput(Object object) {
+	System.out.println(object);
+    }
 				
-	public void run() {
-		displayOutput("Borrow Item Use Case UI\n");
-		
-		while (true) {
-			
-			switch (uiState) {			
-			
-			case CANCELLED:
-				displayOutput("Borrowing Cancelled");
-				return;
-
+    public void run() {
+        displayOutput("Borrow Item Use Case UI\n");	
+         while (true) {		
+	     switch (uiState) {			
+                 case CANCELLED:
+		     displayOutput("Borrowing Cancelled");
+		     return;
 				
-			case READY:
-				String PAT_STR = getInput("Swipe patron card (press <enter> to cancel): ");
-				if (PAT_STR.length() == 0) {
-					control.CaNcEl();
-					break;
-				}
-				try {
-					long PaTrOn_Id = Long.valueOf(PAT_STR).longValue();
-					control.CaRdSwIpEd(PaTrOn_Id);
-				}
-				catch (NumberFormatException e) {
+		 case READY:
+                     String patronString = getInput("Swipe patron card (press <enter> to cancel): ");
+		     if (patronString.length() == 0) {
+			control.cancel();
+			break;
+		    }
+		     try {
+			 long PaTrOn_Id = Long.valueOf(patronString).longValue();
+			 control.CaRdSwIpEd(PaTrOn_Id);
+			 }
+		     catch (NumberFormatException e) {
 					displayOutput("Invalid Patron Id");
 				}
 				break;
@@ -60,7 +51,7 @@ public class BorrowItemUI {
 				
 			case RESTRICTED:
 				getInput("Press <any key> to cancel");
-				control.CaNcEl();
+				control.cancel();
 				break;
 			
 				
@@ -83,7 +74,7 @@ public class BorrowItemUI {
 			case FINALISING:
 				String AnS = getInput("Commit loans? (Y/N): ");
 				if (AnS.toUpperCase().equals("N")) {
-					control.CaNcEl();
+					control.cancel();
 					
 				} else {
 					control.CoMmIt_LoAnS();
