@@ -27,7 +27,7 @@ public class bORROW_IteM_cONTROL {
 	}
 	
 
-	public void SeT_Ui(BorrowItemUI Ui) {
+	public void setUI(BorrowItemUI Ui) {
 		if (!sTaTe.equals(CONTROL_STATE.INITIALISED)) 
 			throw new RuntimeException("BorrowItemControl: cannot call setUI except in INITIALISED state");
 			
@@ -43,7 +43,7 @@ public class bORROW_IteM_cONTROL {
 			
 		PaTrOn = lIbRaRy.getPatron(PaTrOn_Id);
 		if (PaTrOn == null) {
-			uI.DiSpLaY("Invalid patronId");
+			uI.display("Invalid patronId");
 			return;
 		}
 		if (lIbRaRy.canPatronBorrow(PaTrOn)) {
@@ -52,7 +52,7 @@ public class bORROW_IteM_cONTROL {
 			sTaTe = CONTROL_STATE.SCANNING; 
 		}
 		else {
-			uI.DiSpLaY("Patron cannot borrow at this time");
+			uI.display("Patron cannot borrow at this time");
 			uI.setRestricted(); 
 		}
 	}
@@ -65,19 +65,19 @@ public class bORROW_IteM_cONTROL {
 			
 		ItEm = lIbRaRy.getItem(ItEmiD);
 		if (ItEm == null) {
-			uI.DiSpLaY("Invalid itemId");
+			uI.display("Invalid itemId");
 			return;
 		}
 		if (!ItEm.isAvailable()) {
-			uI.DiSpLaY("Item cannot be borrowed");
+			uI.display("Item cannot be borrowed");
 			return;
 		}
 		pEnDiNg_LiSt.add(ItEm);
 		for (Item ItEm : pEnDiNg_LiSt) 
-			uI.DiSpLaY(ItEm);
+			uI.display(ItEm);
 		
 		if (lIbRaRy.getNumberOfLoansRemainingForPatron(PaTrOn) - pEnDiNg_LiSt.size() == 0) {
-			uI.DiSpLaY("Loan limit reached");
+			uI.display("Loan limit reached");
 			BoRrOwInGcOmPlEtEd();
 		}
 	}
@@ -88,9 +88,9 @@ public class bORROW_IteM_cONTROL {
 			CaNcEl();
 		
 		else {
-			uI.DiSpLaY("\nFinal Borrowing List");
+			uI.display("\nFinal Borrowing List");
 			for (Item ItEm : pEnDiNg_LiSt) 
-				uI.DiSpLaY(ItEm);
+				uI.display(ItEm);
 			
 			cOmPlEtEd_LiSt = new ArrayList<Loan>();
 			uI.setFinalising();
@@ -107,9 +107,9 @@ public class bORROW_IteM_cONTROL {
 			Loan lOaN = lIbRaRy.issueLoan(B, PaTrOn);
 			cOmPlEtEd_LiSt.add(lOaN);			
 		}
-		uI.DiSpLaY("Completed Loan Slip");
+		uI.display("Completed Loan Slip");
 		for (Loan LOAN : cOmPlEtEd_LiSt) 
-			uI.DiSpLaY(LOAN);
+			uI.display(LOAN);
 		
 		uI.setCompleted();
 		sTaTe = CONTROL_STATE.COMPLETED;

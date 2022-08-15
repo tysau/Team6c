@@ -164,7 +164,7 @@ public class Main {
 
 
 	private static void BORROW_ITEM() {
-		new BorrowItemUI(new bORROW_IteM_cONTROL()).RuN();		
+		new BorrowItemUI(new bORROW_IteM_cONTROL()).run();		
 	}
 
 
