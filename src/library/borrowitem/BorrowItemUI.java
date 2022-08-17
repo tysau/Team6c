@@ -22,27 +22,27 @@ public class BorrowItemUI {
     }			
 		
     private void displayOutput(Object object) {
-	System.out.println(object);
+        System.out.println(object);
     }
 				
     public void run() {
         displayOutput("Borrow Item Use Case UI\n");	
          while (true) {		
-	     switch (uiState) {			
+             switch (uiState) {			
                  case CANCELLED:
-		     displayOutput("Borrowing Cancelled");
-		     return;
+                     displayOutput("Borrowing Cancelled");
+                     return;
 				
-		 case READY:
+                 case READY:
                      String patronString = getInput("Swipe patron card (press <enter> to cancel): ");
 		     if (patronString.length() == 0) {
-			control.cancel();
+                         control.cancel();
 			break;
-		    }
+                     }
 		     try {
 			 long PaTrOn_Id = Long.valueOf(patronString).longValue();
 			 control.CaRdSwIpEd(PaTrOn_Id);
-			 }
+                     }
 		     catch (NumberFormatException e) {
 					displayOutput("Invalid Patron Id");
 				}
