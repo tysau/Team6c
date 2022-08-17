@@ -1,9 +1,9 @@
-package library.returnBook;
+package library.returnItem;
 import library.entities.Item;
 import library.entities.Library;
 import library.entities.Loan;
 
-public class rETURN_bOOK_cONTROL {
+public class ReturnItemControl {
 
 	private ReturnBookUI Ui;
 	private enum cOnTrOl_sTaTe { INITIALISED, READY, INSPECTING };
@@ -13,7 +13,7 @@ public class rETURN_bOOK_cONTROL {
 	private Loan CurrENT_loan;
 	
 
-	public rETURN_bOOK_cONTROL() {
+	public ReturnItemControl() {
 		this.lIbRaRy = Library.getInstance();
 		sTaTe = cOnTrOl_sTaTe.INITIALISED;
 	}
