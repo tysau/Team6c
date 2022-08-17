@@ -25,10 +25,11 @@ public class ReturnItemUI {
         while (true) {
             switch (uiState) {
                     
-                case INITIALISED:
+                case INITIALISED: {
                     break;
+                }
                     
-                case READY:
+                case READY: {
                     String bookInputString = getInput("Scan Book (<enter> completes): ");
                     if (bookInputString.length() == 0){ 
                         control.sCaNnInG_cOmPlEtEd();
@@ -42,8 +43,10 @@ public class ReturnItemUI {
                             displayOutput("Invalid bookId");
                         }
                     }
-                    break;				
-                case INSPECTING:
+                    break;
+                }    
+                
+                case INSPECTING: {
                     String response = getInput("Is book damaged? (Y/N): ");
                     boolean isDamaged = false;
                     if (response.toUpperCase().equals("Y")) {					
@@ -51,14 +54,17 @@ public class ReturnItemUI {
                     }
                         
                     control.dIsChArGe_lOaN(isDamaged);
-			
-                case COMPLETED:
+                }	
+                
+                case COMPLETED: {
                     displayOutput("Return processing complete");
                     return;
-			
-                default:
+                }	
+                
+                default: {
                     displayOutput("Unhandled state");
-                    throw new RuntimeException("ReturnBookUI : unhandled state :" + uiState);			
+                    throw new RuntimeException("ReturnBookUI : unhandled state :" + uiState);	
+                }
             }
         }
     }
