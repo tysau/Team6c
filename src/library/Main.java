@@ -57,60 +57,60 @@ public class Main {
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 			for (Patron patron : library.listPatrons()) {
-				output(patron);
+				displayOutput(patron);
 			}
-			output(" ");
+			displayOutput(" ");
 			for (Item item : library.listItems()) {
-				output(item);
+				displayOutput(item);
 			}
 						
 			boolean finished = false;
 			
 			while (!finished) {
 				
-				output("\n" + simpleDateFormat.format(calendar.getDate()));
-				String choice = input(menu);
+				displayOutput("\n" + simpleDateFormat.format(calendar.getDate()));
+				String choice = getInput(menu);
 				
 				switch (choice.toUpperCase()) {
 				
 				case "AP": 
-					ADD_PATRON();
+					addPatron();
 					break;
 					
 				case "LP": 
-					LIST_PATRONS();
+					listPatrons();
 					break;
 					
 				case "AI": 
-					ADD_ITEM();
+					addItem();
 					break;
 					
 				case "LI": 
-					LIST_ITEMS();
+					listItems();
 					break;
 					
 				case "FI": 
-					FIX_ITEMS();
+					fixItems();
 					break;
 					
 				case "B": 
-					BORROW_ITEM();
+					borrowItem();
 					break;
 					
 				case "R": 
-					RETURN_ITEM();
+					returnItem();
 					break;
 					
 				case "L": 
-					LIST_CURRENT_LOANS();
+					listCurrentLoans();
 					break;
 					
 				case "P": 
-					PAY_FINES();
+					payFines();
 					break;
 					
 				case "T": 
-					INCREMENT_DATE();
+					incrementDate();
 					break;
 					
 				case "Q": 
@@ -118,80 +118,80 @@ public class Main {
 					break;
 					
 				default: 
-					output("\nInvalid option\n");
+					displayOutput("\nInvalid option\n");
 					break;
 				}
 				
 				Library.save();
 			}			
 		} catch (RuntimeException e) {
-			output(e);
+			displayOutput(e);
 		}		
-		output("\nEnded\n");
+		displayOutput("\nEnded\n");
 	}	
 
 	
-	private static void PAY_FINES() {
+	private static void payFines() {
 		new PayFineUI(new pAY_fINE_cONTROL()).RuN();		
 	}
 
 
-	private static void LIST_CURRENT_LOANS() {
-		output("");
+	private static void listCurrentLoans() {
+		displayOutput("");
 		for (Loan loan : library.listCurrentLoans()) {
-			output(loan + "\n");
+			displayOutput(loan + "\n");
 		}		
 	}
 
 
 
-	private static void LIST_ITEMS() {
-		output("");
+	private static void listItems() {
+		displayOutput("");
 		for (Item book : library.listItems()) {
-			output(book + "\n");
+			displayOutput(book + "\n");
 		}		
 	}
 
 
 
-	private static void LIST_PATRONS() {
-		output("");
+	private static void listPatrons() {
+		displayOutput("");
 		for (Patron member : library.listPatrons()) {
-			output(member + "\n");
+			displayOutput(member + "\n");
 		}		
 	}
 
 
 
-	private static void BORROW_ITEM() {
+	private static void borrowItem() {
 		new BorrowItemUI(new bORROW_IteM_cONTROL()).RuN();		
 	}
 
 
-	private static void RETURN_ITEM() {
+	private static void returnItem() {
 		new ReturnBookUI(new rETURN_bOOK_cONTROL()).RuN();		
 	}
 
 
-	private static void FIX_ITEMS() {
+	private static void fixItems() {
 		new FixItemUI(new fIX_iTeM_cONTROL()).RuN();		
 	}
 
 
-	private static void INCREMENT_DATE() {
+	private static void incrementDate() {
 		try {
-			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
+			int days = Integer.valueOf(getInput("Enter number of days: ")).intValue();
 			calendar.incrementDate(days);
 			library.updateCurrentLoansStatus();
-			output(simpleDateFormat.format(calendar.getDate()));
+			displayOutput(simpleDateFormat.format(calendar.getDate()));
 			
 		} catch (NumberFormatException e) {
-			 output("\nInvalid number of days\n");
+			 displayOutput("\nInvalid number of days\n");
 		}
 	}
 
 
-	private static void ADD_ITEM() {
+	private static void addItem() {
 		
 		ItemType itemType = null;
 		String typeMenu = """
@@ -204,7 +204,7 @@ public class Main {
 			   Choice <Enter quits> : """;
 
 		while (itemType == null) {
-			String type = input(typeMenu);
+			String type = getInput(typeMenu);
 			
 			switch (type.toUpperCase()) {
 			case "B": 
@@ -231,44 +231,44 @@ public class Main {
 				return;
 			
 			default:
-				output(type + " is not a recognised Item type");
+				displayOutput(type + " is not a recognised Item type");
 	
 			}
 		}
 
-		String AuThOr = input("Enter author: ");
-		String TiTlE  = input("Enter title: ");
-		String CaLl_NuMbEr = input("Enter call number: ");
-		Item BoOk = library.addItem(AuThOr, TiTlE, CaLl_NuMbEr, itemType);
-		output("\n" + BoOk + "\n");
+		String author = getInput("Enter author: ");
+		String title  = getInput("Enter title: ");
+		String callNumber = getInput("Enter call number: ");
+		Item item = library.addItem(author, title, callNumber, itemType);
+		displayOutput("\n" + item + "\n");
 		
 	}
 
 	
-	private static void ADD_PATRON() {
+	private static void addPatron() {
 		try {
-			String FiRsT_NaMe  = input("Enter first name: ");
-			String LaSt_NaMe = input("Enter last name: ");
-			String EmAiL_AdDrEsS = input("Enter email address: ");
-			long PhOnE_NuMbEr = Long.valueOf(input("Enter phone number: ")).intValue();
-			Patron PaTrOn = library.addPatron(FiRsT_NaMe, LaSt_NaMe, EmAiL_AdDrEsS, PhOnE_NuMbEr);
-			output("\n" + PaTrOn + "\n");
+			String firstName  = getInput("Enter first name: ");
+			String lastName = getInput("Enter last name: ");
+			String emailAddress = getInput("Enter email address: ");
+			long phoneNumber = Long.valueOf(getInput("Enter phone number: ")).intValue();
+			Patron patron = library.addPatron(firstName, lastName, emailAddress, phoneNumber);
+			displayOutput("\n" + patron + "\n");
 			
 		} catch (NumberFormatException e) {
-			 output("\nInvalid phone number\n");
+			 displayOutput("\nInvalid phone number\n");
 		}
 		
 	}
 
 
-	private static String input(String prompt) {
+	private static String getInput(String prompt) {
 		System.out.print(prompt);
 		return scanner.nextLine();
 	}
 	
 	
 	
-	private static void output(Object object) {
+	private static void displayOutput(Object object) {
 		System.out.println(object);
 	}
 
