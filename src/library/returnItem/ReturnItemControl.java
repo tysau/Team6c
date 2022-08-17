@@ -60,7 +60,7 @@ public class ReturnItemControl {
 	}
 
 
-	public void sCaNnInG_cOmPlEtEd() {
+	public void scanningCompleted() {
 		if (!state.equals(ControlState.READY)) 
 			throw new RuntimeException("ReturnBookControl: cannot call scanningComplete except in READY state");
 		
@@ -68,11 +68,11 @@ public class ReturnItemControl {
 	}
 
 
-	public void dIsChArGe_lOaN(boolean iS_dAmAgEd) {
+	public void dischargeLoan(boolean isDamaged) {
 		if (!state.equals(ControlState.INSPECTING)) 
 			throw new RuntimeException("ReturnBookControl: cannot call dischargeLoan except in INSPECTING state");
 		
-		library.dischargeLoan(currentLoan, iS_dAmAgEd);
+		library.dischargeLoan(currentLoan, isDamaged);
 		currentLoan = null;
 		ui.SeTrEaDy();
 		state = ControlState.READY;				

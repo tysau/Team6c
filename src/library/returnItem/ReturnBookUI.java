@@ -32,7 +32,7 @@ public class ReturnBookUI {
 			case READY:
 				String BoOk_InPuT_StRiNg = GeTiNpUt("Scan Book (<enter> completes): ");
 				if (BoOk_InPuT_StRiNg.length() == 0) 
-					CoNtRoL.sCaNnInG_cOmPlEtEd();
+					CoNtRoL.scanningCompleted();
 				
 				else {
 					try {
@@ -51,7 +51,7 @@ public class ReturnBookUI {
 				if (AnS.toUpperCase().equals("Y")) 					
 					Is_DAmAgEd = true;
 				
-				CoNtRoL.dIsChArGe_lOaN(Is_DAmAgEd);
+				CoNtRoL.dischargeLoan(Is_DAmAgEd);
 			
 			case COMPLETED:
 				DiSpLaYoUtPuT("Return processing complete");
