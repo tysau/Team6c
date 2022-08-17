@@ -56,22 +56,22 @@ public class Main {
 			calendar = Calendar.getInstance();
 			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
-			for (Patron PAtrON : library.listPatrons()) {
-				output(PAtrON);
+			for (Patron patron : library.listPatrons()) {
+				output(patron);
 			}
 			output(" ");
-			for (Item iTEm : library.listItems()) {
-				output(iTEm);
+			for (Item item : library.listItems()) {
+				output(item);
 			}
 						
-			boolean fInIsHeD = false;
+			boolean finished = false;
 			
-			while (!fInIsHeD) {
+			while (!finished) {
 				
 				output("\n" + simpleDateFormat.format(calendar.getDate()));
-				String ChOiCe = input(menu);
+				String choice = input(menu);
 				
-				switch (ChOiCe.toUpperCase()) {
+				switch (choice.toUpperCase()) {
 				
 				case "AP": 
 					ADD_PATRON();
@@ -114,7 +114,7 @@ public class Main {
 					break;
 					
 				case "Q": 
-					fInIsHeD = true;
+					finished = true;
 					break;
 					
 				default: 
