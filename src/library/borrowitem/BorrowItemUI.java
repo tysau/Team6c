@@ -4,12 +4,15 @@ import java.util.Scanner;
 
 public class BorrowItemUI {
 	
+
     public static enum BorrowItemUIState { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
     private BorrowItemUIState uiState;
-    private bORROW_IteM_cONTROL control;
+    private BorrowItemControl control;
     private Scanner scanner;
 
-    public BorrowItemUI(bORROW_IteM_cONTROL borrowItemControl) {
+	
+
+    public BorrowItemUI(BorrowItemControl borrowItemControl) {
         this.control = borrowItemControl;
         scanner = new Scanner(System.in);
         uiState = BorrowItemUIState.INITIALISED;
@@ -20,6 +23,7 @@ public class BorrowItemUI {
        System.out.print(prompt);
        return scanner.nextLine();
     }			
+
 		
     private void displayOutput(Object object) {
         System.out.println(object);
@@ -41,7 +45,7 @@ public class BorrowItemUI {
                     }
 		    try {
                         long PatronId = Long.valueOf(patronString).longValue();
-                        control.CardSwiped(PatronId);
+                        control.cardSwiped(PatronId);
                     }
                     catch (NumberFormatException e) {
                         displayOutput("Invalid Patron Id");
@@ -49,6 +53,7 @@ public class BorrowItemUI {
                     break;
                 }
 				
+
                 case RESTRICTED:{
                     getInput("Press <any key> to cancel");
                     control.cancel();
@@ -74,8 +79,7 @@ public class BorrowItemUI {
                 case FINALISING: {
                     String ans = getInput("Commit loans? (Y/N): ");
                     if (ans.toUpperCase().equals("N")) {
-                        control.cancel();
-					
+                        control.cancel();		
 		    } 
                     else {
                         control.commitLoans();
@@ -84,10 +88,13 @@ public class BorrowItemUI {
 		    break;
                 }
 				
+
                 case COMPLETED: {
                     displayOutput("Borrowing Completed");
                     return;
                 }
+
+			
 	
 			
                 default: {
@@ -102,6 +109,7 @@ public class BorrowItemUI {
     public void display(Object object) {
         displayOutput(object);		
     }
+
 
 
     public void setReady() {
