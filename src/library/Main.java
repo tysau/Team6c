@@ -15,8 +15,8 @@ import library.fixitem.FixItemUI;
 import library.fixitem.fIX_iTeM_cONTROL;
 import library.payfine.PayFineUI;
 import library.payfine.pAY_fINE_cONTROL;
-import library.returnBook.ReturnBookUI;
-import library.returnBook.rETURN_bOOK_cONTROL;
+import library.returnItem.ReturnItemUI;
+import library.returnItem.rETURN_bOOK_cONTROL;
 
 
 public class Main {
@@ -171,7 +171,7 @@ public class Main {
 
 
 	private static void RETURN_ITEM() {
-		new ReturnBookUI(new rETURN_bOOK_cONTROL()).RuN();		
+		new ReturnItemUI(new rETURN_bOOK_cONTROL()).run();		
 	}
 
 
