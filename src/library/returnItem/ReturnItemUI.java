@@ -8,7 +8,7 @@ public class ReturnItemUI {
 
     private rETURN_bOOK_cONTROL control;
     private Scanner scanner;
-        private ReturnItemUIState uiState;
+    private ReturnItemUIState uiState;
 
 	
     public ReturnItemUI(rETURN_bOOK_cONTROL returnItemControl) {
