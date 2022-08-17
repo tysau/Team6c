@@ -21,12 +21,12 @@ import library.returnBook.rETURN_bOOK_cONTROL;
 
 public class Main {
 	
-	private static Scanner SCANNER;
-	private static Library LIBRARY;
-	private static Calendar CALENDAR;
-	private static SimpleDateFormat SIMPLEDATEFORMAT;
+	private static Scanner scanner;
+	private static Library library;
+	private static Calendar calendar;
+	private static SimpleDateFormat simpleDateFormat;
 	
-	private static String MENU = """
+	private static String menu = """
 		Library Main Menu
 		
 			AP  : add patron
@@ -51,16 +51,16 @@ public class Main {
 	
 	public static void main(String[] args) {		
 		try {			
-			SCANNER = new Scanner(System.in);
-			LIBRARY = Library.getInstance();
-			CALENDAR = Calendar.getInstance();
-			SIMPLEDATEFORMAT = new SimpleDateFormat("dd/MM/yyyy");
+			scanner = new Scanner(System.in);
+			library = Library.getInstance();
+			calendar = Calendar.getInstance();
+			simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
-			for (Patron PAtrON : LIBRARY.listPatrons()) {
+			for (Patron PAtrON : library.listPatrons()) {
 				output(PAtrON);
 			}
 			output(" ");
-			for (Item iTEm : LIBRARY.listItems()) {
+			for (Item iTEm : library.listItems()) {
 				output(iTEm);
 			}
 						
@@ -68,8 +68,8 @@ public class Main {
 			
 			while (!fInIsHeD) {
 				
-				output("\n" + SIMPLEDATEFORMAT.format(CALENDAR.getDate()));
-				String ChOiCe = input(MENU);
+				output("\n" + simpleDateFormat.format(calendar.getDate()));
+				String ChOiCe = input(menu);
 				
 				switch (ChOiCe.toUpperCase()) {
 				
@@ -138,7 +138,7 @@ public class Main {
 
 	private static void LIST_CURRENT_LOANS() {
 		output("");
-		for (Loan loan : LIBRARY.listCurrentLoans()) {
+		for (Loan loan : library.listCurrentLoans()) {
 			output(loan + "\n");
 		}		
 	}
@@ -147,7 +147,7 @@ public class Main {
 
 	private static void LIST_ITEMS() {
 		output("");
-		for (Item book : LIBRARY.listItems()) {
+		for (Item book : library.listItems()) {
 			output(book + "\n");
 		}		
 	}
@@ -156,7 +156,7 @@ public class Main {
 
 	private static void LIST_PATRONS() {
 		output("");
-		for (Patron member : LIBRARY.listPatrons()) {
+		for (Patron member : library.listPatrons()) {
 			output(member + "\n");
 		}		
 	}
@@ -181,9 +181,9 @@ public class Main {
 	private static void INCREMENT_DATE() {
 		try {
 			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
-			CALENDAR.incrementDate(days);
-			LIBRARY.updateCurrentLoansStatus();
-			output(SIMPLEDATEFORMAT.format(CALENDAR.getDate()));
+			calendar.incrementDate(days);
+			library.updateCurrentLoansStatus();
+			output(simpleDateFormat.format(calendar.getDate()));
 			
 		} catch (NumberFormatException e) {
 			 output("\nInvalid number of days\n");
@@ -239,7 +239,7 @@ public class Main {
 		String AuThOr = input("Enter author: ");
 		String TiTlE  = input("Enter title: ");
 		String CaLl_NuMbEr = input("Enter call number: ");
-		Item BoOk = LIBRARY.addItem(AuThOr, TiTlE, CaLl_NuMbEr, itemType);
+		Item BoOk = library.addItem(AuThOr, TiTlE, CaLl_NuMbEr, itemType);
 		output("\n" + BoOk + "\n");
 		
 	}
@@ -251,7 +251,7 @@ public class Main {
 			String LaSt_NaMe = input("Enter last name: ");
 			String EmAiL_AdDrEsS = input("Enter email address: ");
 			long PhOnE_NuMbEr = Long.valueOf(input("Enter phone number: ")).intValue();
-			Patron PaTrOn = LIBRARY.addPatron(FiRsT_NaMe, LaSt_NaMe, EmAiL_AdDrEsS, PhOnE_NuMbEr);
+			Patron PaTrOn = library.addPatron(FiRsT_NaMe, LaSt_NaMe, EmAiL_AdDrEsS, PhOnE_NuMbEr);
 			output("\n" + PaTrOn + "\n");
 			
 		} catch (NumberFormatException e) {
@@ -263,7 +263,7 @@ public class Main {
 
 	private static String input(String prompt) {
 		System.out.print(prompt);
-		return SCANNER.nextLine();
+		return scanner.nextLine();
 	}
 	
 	
