@@ -37,7 +37,7 @@ public class bORROW_IteM_cONTROL {
 	}
 
 		
-	public void CaRdSwIpEd(long PaTrOn_Id) {
+	public void CardSwiped(long PaTrOn_Id) {
 		if (!sTaTe.equals(CONTROL_STATE.READY)) 
 			throw new RuntimeException("BorrowItemControl: cannot call cardSwiped except in READY state");
 			
@@ -58,7 +58,7 @@ public class bORROW_IteM_cONTROL {
 	}
 	
 	
-	public void ItEmScAnNeD(int ItEmiD) {
+	public void itemScanned(int ItEmiD) {
 		ItEm = null;
 		if (!sTaTe.equals(CONTROL_STATE.SCANNING)) 
 			throw new RuntimeException("BorrowItemControl: cannot call itemScanned except in SCANNING state");
@@ -78,12 +78,12 @@ public class bORROW_IteM_cONTROL {
 		
 		if (lIbRaRy.getNumberOfLoansRemainingForPatron(PaTrOn) - pEnDiNg_LiSt.size() == 0) {
 			uI.display("Loan limit reached");
-			BoRrOwInGcOmPlEtEd();
+			borrowingCompleted();
 		}
 	}
 	
 	
-	public void BoRrOwInGcOmPlEtEd() {
+	public void borrowingCompleted() {
 		if (pEnDiNg_LiSt.size() == 0) 
 			cancel();
 		
@@ -99,7 +99,7 @@ public class bORROW_IteM_cONTROL {
 	}
 
 
-	public void CoMmIt_LoAnS() {
+	public void commitLoans() {
 		if (!sTaTe.equals(CONTROL_STATE.FINALISING)) 
 			throw new RuntimeException("BorrowItemControl: cannot call commitLoans except in FINALISING state");
 			
