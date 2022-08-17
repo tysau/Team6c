@@ -7,16 +7,16 @@ public class PayFineUI {
 
 	private enum uI_sTaTe { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
 
-	private pAY_fINE_cONTROL CoNtRoL;
+	private PayFineControl CoNtRoL;
 	private Scanner ScAnNeR;
 	private uI_sTaTe StAtE;
 
 	
-	public PayFineUI(pAY_fINE_cONTROL control) {
+	public PayFineUI(PayFineControl control) {
 		this.CoNtRoL = control;
 		ScAnNeR = new Scanner(System.in);
 		StAtE = uI_sTaTe.INITIALISED;
-		control.SeT_uI(this);
+		control.setUI(this);
 	}
 	
 	
@@ -31,12 +31,12 @@ public class PayFineUI {
 			case READY:
 				String PaT_Str = GeTiNpUt("Swipe patron card (press <enter> to cancel): ");
 				if (PaT_Str.length() == 0) {
-					CoNtRoL.CaNcEl();
+					CoNtRoL.cancel();
 					break;
 				}
 				try {
 					long PAtroN_ID = Long.valueOf(PaT_Str).longValue();
-					CoNtRoL.CaRd_sWiPeD(PAtroN_ID);
+					CoNtRoL.cardSwiped(PAtroN_ID);
 				}
 				catch (NumberFormatException e) {
 					DiSpLaYoUtPuT("Invalid patronID");
@@ -47,7 +47,7 @@ public class PayFineUI {
 				double AmouNT = 0;
 				String Amt_Str = GeTiNpUt("Enter amount (<Enter> cancels) : ");
 				if (Amt_Str.length() == 0) {
-					CoNtRoL.CaNcEl();
+					CoNtRoL.cancel();
 					break;
 				}
 				try {
@@ -58,7 +58,7 @@ public class PayFineUI {
 					DiSpLaYoUtPuT("Amount must be positive");
 					break;
 				}
-				CoNtRoL.PaY_FiNe(AmouNT);
+				CoNtRoL.payFine(AmouNT);
 				break;
 								
 			case CANCELLED:
@@ -112,7 +112,7 @@ public class PayFineUI {
 	}
 
 
-	public void SeTrEaDy() {
+	public void setReady() {
 		StAtE = uI_sTaTe.READY;
 		
 	}
