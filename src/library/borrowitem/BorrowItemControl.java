@@ -27,7 +27,7 @@ public class BorrowItemControl {
 
     public void setUI(BorrowItemUI ui) {
         if (!state.equals(ControlState.INITIALISED)) {
-	   throw new RuntimeException("BorrowItemControl: cannot call setUI except in INITIALISED state");
+	    throw new RuntimeException("BorrowItemControl: cannot call setUI except in INITIALISED state");
         }
         this.ui = ui;
         ui.setReady();
@@ -37,7 +37,7 @@ public class BorrowItemControl {
 		
     public void cardSwiped(long patronId) {
         if (!state.equals(ControlState.READY)) {
-	   throw new RuntimeException("BorrowItemControl: cannot call cardSwiped except in READY state");
+	    throw new RuntimeException("BorrowItemControl: cannot call cardSwiped except in READY state");
         }		
         patron = library.getPatron(patronId);
         if (patron == null) {
@@ -72,7 +72,7 @@ public class BorrowItemControl {
         }
         pendingList.add(item);
         for (Item item : pendingList) {
-             ui.display(item);
+            ui.display(item);
         }	
         if (library.getNumberOfLoansRemainingForPatron(patron) - pendingList.size() == 0) {
             ui.display("Loan limit reached");
