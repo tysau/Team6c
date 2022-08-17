@@ -28,9 +28,9 @@ public class PayFineControl {
 
 
     public void cardSwiped(long patronId) {
-        if (!state.equals(ControlState.READY)) 
+        if (!state.equals(ControlState.READY)) { 
             throw new RuntimeException("PayFineControl: cannot call cardSwiped except in READY state");
-			
+        }	
         patron = library.getPatron(patronId);
 		
         if (patron == null) {
@@ -44,13 +44,13 @@ public class PayFineControl {
 	
 	
     public double payFine(double paymentAmount) {
-        if (!state.equals(ControlState.PAYING)) 
+        if (!state.equals(ControlState.PAYING)) {
             throw new RuntimeException("PayFineControl: cannot call payFine except in PAYING state");
-			
+        }	
         double change = patron.payFine(paymentAmount);
-        if (change > 0) 
+        if (change > 0) {
             ui.DiSplAY(String.format("Change: $%.2f", change));
-		
+        }
         ui.DiSplAY(patron);
         ui.SeTcOmPlEtEd();
         state = ControlState.COMPLETED;
