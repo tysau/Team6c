@@ -67,8 +67,8 @@ public class BorrowItemUI {
                         break;
                     }
                     try {
-                        int iId = Integer.valueOf(itemStringInput).intValue();
-                        control.itemScanned(iId);			
+                        int itemId = Integer.valueOf(itemStringInput).intValue();
+                        control.itemScanned(itemId);			
 		    }
                     catch (NumberFormatException e) {
                         displayOutput("Invalid Item Id");
@@ -77,8 +77,8 @@ public class BorrowItemUI {
                 }		
 				
                 case FINALISING: {
-                    String ans = getInput("Commit loans? (Y/N): ");
-                    if (ans.toUpperCase().equals("N")) {
+                    String answer = getInput("Commit loans? (Y/N): ");
+                    if (answer.toUpperCase().equals("N")) {
                         control.cancel();		
 		    } 
                     else {
