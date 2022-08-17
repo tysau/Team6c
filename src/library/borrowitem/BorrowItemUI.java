@@ -4,144 +4,140 @@ import java.util.Scanner;
 
 public class BorrowItemUI {
 	
-	public static enum uI_STaTe { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
 
-	private uI_STaTe StaTe;
-	private BorrowItemControl CoNtRoL;
-	private Scanner ScAnNeR;
-
-	
-	public BorrowItemUI(BorrowItemControl control) {
-		this.CoNtRoL = control;
-		ScAnNeR = new Scanner(System.in);
-		StaTe = uI_STaTe.INITIALISED;
-		control.setUI(this);
-	}
+    public static enum BorrowItemUIState { INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED };
+    private BorrowItemUIState uiState;
+    private BorrowItemControl control;
+    private Scanner scanner;
 
 	
-	private String GeTiNpUt(String PrOmPt) {
-		System.out.print(PrOmPt);
-		return ScAnNeR.nextLine();
-	}	
+
+    public BorrowItemUI(BorrowItemControl borrowItemControl) {
+        this.control = borrowItemControl;
+        scanner = new Scanner(System.in);
+        uiState = BorrowItemUIState.INITIALISED;
+        borrowItemControl.setUI(this);
+    }
+	
+   private String getInput(String prompt) {
+       System.out.print(prompt);
+       return scanner.nextLine();
+    }			
+
 		
-		
-	private void DiSpLaYoUtPuT(Object ObJeCt) {
-		System.out.println(ObJeCt);
-	}
-	
+    private void displayOutput(Object object) {
+        System.out.println(object);
+    }
 				
-	public void RuN() {
-		DiSpLaYoUtPuT("Borrow Item Use Case UI\n");
-		
-		while (true) {
+    public void run() {
+        displayOutput("Borrow Item Use Case UI\n");	
+        while (true) {		
+            switch (uiState) {			
+                case CANCELLED: {
+                    displayOutput("Borrowing Cancelled");
+                    return;
+                }		
+                case READY: {
+                    String patronString = getInput("Swipe patron card (press <enter> to cancel): ");
+		    if (patronString.length() == 0) {
+                        control.cancel();
+			break;
+                    }
+		    try {
+                        long PatronId = Long.valueOf(patronString).longValue();
+                        control.cardSwiped(PatronId);
+                    }
+                    catch (NumberFormatException e) {
+                        displayOutput("Invalid Patron Id");
+                    }
+                    break;
+                }
+				
+
+                case RESTRICTED:{
+                    getInput("Press <any key> to cancel");
+                    control.cancel();
+                    break;
+                }	
+				
+                case SCANNING: {
+                    String itemStringInput = getInput("Scan Item (<enter> completes): ");
+                    if (itemStringInput.length() == 0) {
+                        control.borrowingCompleted();
+                        break;
+                    }
+                    try {
+                        int itemId = Integer.valueOf(itemStringInput).intValue();
+                        control.itemScanned(itemId);			
+		    }
+                    catch (NumberFormatException e) {
+                        displayOutput("Invalid Item Id");
+                    } 
+                    break;
+                }		
+				
+                case FINALISING: {
+                    String answer = getInput("Commit loans? (Y/N): ");
+                    if (answer.toUpperCase().equals("N")) {
+                        control.cancel();		
+		    } 
+                    else {
+                        control.commitLoans();
+                        getInput("Press <any key> to complete ");
+                    }
+		    break;
+                }
+				
+
+                case COMPLETED: {
+                    displayOutput("Borrowing Completed");
+                    return;
+                }
+
 			
-			switch (StaTe) {			
-			
-			case CANCELLED:
-				DiSpLaYoUtPuT("Borrowing Cancelled");
-				return;
-
-				
-			case READY:
-				String PAT_STR = GeTiNpUt("Swipe patron card (press <enter> to cancel): ");
-				if (PAT_STR.length() == 0) {
-					CoNtRoL.cancel();
-					break;
-				}
-				try {
-					long PaTrOn_Id = Long.valueOf(PAT_STR).longValue();
-					CoNtRoL.cardSwiped(PaTrOn_Id);
-				}
-				catch (NumberFormatException e) {
-					DiSpLaYoUtPuT("Invalid Patron Id");
-				}
-				break;
-
-				
-			case RESTRICTED:
-				GeTiNpUt("Press <any key> to cancel");
-				CoNtRoL.cancel();
-				break;
-			
-				
-			case SCANNING:
-				String Item_StRiNg_InPuT = GeTiNpUt("Scan Item (<enter> completes): ");
-				if (Item_StRiNg_InPuT.length() == 0) {
-					CoNtRoL.borrowingCompleted();
-					break;
-				}
-				try {
-					int IiD = Integer.valueOf(Item_StRiNg_InPuT).intValue();
-					CoNtRoL.itemScanned(IiD);
-					
-				} catch (NumberFormatException e) {
-					DiSpLaYoUtPuT("Invalid Item Id");
-				} 
-				break;
-					
-				
-			case FINALISING:
-				String AnS = GeTiNpUt("Commit loans? (Y/N): ");
-				if (AnS.toUpperCase().equals("N")) {
-					CoNtRoL.cancel();
-					
-				} else {
-					CoNtRoL.commitLoans();
-					GeTiNpUt("Press <any key> to complete ");
-				}
-				break;
-				
-				
-			case COMPLETED:
-				DiSpLaYoUtPuT("Borrowing Completed");
-				return;
 	
-				
-			default:
-				DiSpLaYoUtPuT("Unhandled state");
-				throw new RuntimeException("BorrowItemUI : unhandled state :" + StaTe);			
-			}
-		}		
-	}
+			
+                default: {
+                    displayOutput("Unhandled state");
+                    throw new RuntimeException("BorrowItemUI : unhandled state :" + uiState);	
+                }
+           }
+        }		
+    }
 
 
-	public void display(Object object) {
-		DiSpLaYoUtPuT(object);		
-	}
+    public void display(Object object) {
+        displayOutput(object);		
+    }
 
 
-	public void setReady() {
-		StaTe = uI_STaTe.READY;
-		
-	}
+
+    public void setReady() {
+        uiState = BorrowItemUIState.READY;	
+    }
 
 
-	public void setScanning() {
-		StaTe = uI_STaTe.SCANNING;
-		
-	}
+    public void setScanning() {
+        uiState = BorrowItemUIState.SCANNING;	
+    }
 
 
-	public void setRestricted() {
-		StaTe = uI_STaTe.RESTRICTED;
-		
-	}
+    public void setRestricted() {
+        uiState = BorrowItemUIState.RESTRICTED;
+    }
 
-	public void setFinalising() {
-		StaTe = uI_STaTe.FINALISING;
-		
-	}
+    public void setFinalising() {
+        uiState = BorrowItemUIState.FINALISING;		
+    }
 
 
-	public void setCompleted() {
-		StaTe = uI_STaTe.COMPLETED;
-		
-	}
+    public void setCompleted() {
+        uiState = BorrowItemUIState.COMPLETED;		
+    }
 
-	public void setCancelled() {
-		StaTe = uI_STaTe.CANCELLED;
-		
-	}
+    public void setCancelled() {
+        uiState = BorrowItemUIState.CANCELLED;	
+    }
 
 
 
