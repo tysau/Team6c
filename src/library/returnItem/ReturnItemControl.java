@@ -19,41 +19,41 @@ public class ReturnItemControl {
 	}
 	
 	
-	public void sEt_uI(ReturnBookUI uI) {
+	public void setUI(ReturnBookUI ui) {
 		if (!state.equals(ControlState.INITIALISED)) 
 			throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
 		
-		this.ui = uI;
-		uI.SeTrEaDy();
+		this.ui = ui;
+		ui.SeTrEaDy();
 		state = ControlState.READY;		
 	}
 
 
-	public void bOoK_sCaNnEd(long bOoK_iD) {
+	public void itemScanned(long bookID) {
 		if (!state.equals(ControlState.READY)) 
 			throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
 		
-		Item cUrReNt_bOoK = library.getItem(bOoK_iD);
+		Item currentItem = library.getItem(bookID);
 		
-		if (cUrReNt_bOoK == null) {
+		if (currentItem == null) {
 			ui.DiSpLaY("Invalid Book Id");
 			return;
 		}
-		if (!cUrReNt_bOoK.isOnLoan()) {
+		if (!currentItem.isOnLoan()) {
 			ui.DiSpLaY("Book has not been borrowed");
 			return;
 		}		
-		currentLoan = library.getLoanByItemId(bOoK_iD);	
-		double Over_Due_Fine = 0.0;
+		currentLoan = library.getLoanByItemId(bookID);	
+		double overDueFine = 0.0;
 		if (currentLoan.isOverDue()) 
-			Over_Due_Fine = library.calculateOverDueFine(currentLoan);
+			overDueFine = library.calculateOverDueFine(currentLoan);
 		
 		ui.DiSpLaY("Inspecting");
-		ui.DiSpLaY(cUrReNt_bOoK.toString());
+		ui.DiSpLaY(currentItem.toString());
 		ui.DiSpLaY(currentLoan.toString());
 		
 		if (currentLoan.isOverDue()) 
-			ui.DiSpLaY(String.format("\nOverdue fine : $%.2f", Over_Due_Fine));
+			ui.DiSpLaY(String.format("\nOverdue fine : $%.2f", overDueFine));
 		
 		ui.SeTiNsPeCtInG();
 		state = ControlState.INSPECTING;		
