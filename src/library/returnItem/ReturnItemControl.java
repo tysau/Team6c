@@ -21,7 +21,7 @@ public class ReturnItemControl {
 	
     public void setUI(ReturnItemUI ui) {
         if (!state.equals(ControlState.INITIALISED)) {
-            throw new RuntimeException("ReturnBookControl: cannot call setUI except in INITIALISED state");
+            throw new RuntimeException("ReturnItemControl: cannot call setUI except in INITIALISED state");
         }
         this.ui = ui;
         ui.setReady();
@@ -29,22 +29,22 @@ public class ReturnItemControl {
     }
 
 
-    public void itemScanned(long bookID) {
+    public void itemScanned(long itemId) {
         if (!state.equals(ControlState.READY)) {
-            throw new RuntimeException("ReturnBookControl: cannot call bookScanned except in READY state");
+            throw new RuntimeException("ReturnItemControl: cannot call itemScanned except in READY state");
         }
         
-        Item currentItem = library.getItem(bookID);
+        Item currentItem = library.getItem(itemId);
         
         if (currentItem == null) {
-            ui.display("Invalid Book Id");
+            ui.display("Invalid Item Id");
             return;
         }
         if (!currentItem.isOnLoan()) {
-            ui.display("Book has not been borrowed");
+            ui.display("Item has not been borrowed");
             return;
         }		
-        currentLoan = library.getLoanByItemId(bookID);	
+        currentLoan = library.getLoanByItemId(itemId);	
         double overDueFine = 0.0;
         if (currentLoan.isOverDue()) {
             overDueFine = library.calculateOverDueFine(currentLoan);
@@ -65,7 +65,7 @@ public class ReturnItemControl {
 
     public void scanningCompleted() {
         if (!state.equals(ControlState.READY)) {
-            throw new RuntimeException("ReturnBookControl: cannot call scanningComplete except in READY state");
+            throw new RuntimeException("ReturnItemControl: cannot call scanningComplete except in READY state");
         }
         ui.setCompleted();
     }
@@ -73,7 +73,7 @@ public class ReturnItemControl {
 
     public void dischargeLoan(boolean isDamaged) {
         if (!state.equals(ControlState.INSPECTING)) {
-            throw new RuntimeException("ReturnBookControl: cannot call dischargeLoan except in INSPECTING state");
+            throw new RuntimeException("ReturnItemControl: cannot call dischargeLoan except in INSPECTING state");
         }
         
         library.dischargeLoan(currentLoan, isDamaged);

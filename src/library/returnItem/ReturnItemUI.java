@@ -20,7 +20,7 @@ public class ReturnItemUI {
 
 
     public void run() {		
-        displayOutput("Return Book Use Case UI\n");
+        displayOutput("Return Item Use Case UI\n");
             
         while (true) {
             switch (uiState) {
@@ -30,24 +30,24 @@ public class ReturnItemUI {
                 }
                     
                 case READY: {
-                    String bookInputString = getInput("Scan Book (<enter> completes): ");
-                    if (bookInputString.length() == 0){ 
+                    String itemInputString = getInput("Scan item (<enter> completes): ");
+                    if (itemInputString.length() == 0){ 
                         control.scanningCompleted();
                     }
                     else {
                         try {
-                            long bookId = Long.valueOf(bookInputString).longValue();
-                            control.itemScanned(bookId);
+                            long itemId = Long.valueOf(itemInputString).longValue();
+                            control.itemScanned(itemId);
                         }
                         catch (NumberFormatException e) {
-                            displayOutput("Invalid bookId");
+                            displayOutput("Invalid itemId");
                         }
                     }
                     break;
                 }    
                 
                 case INSPECTING: {
-                    String response = getInput("Is book damaged? (Y/N): ");
+                    String response = getInput("Is item damaged? (Y/N): ");
                     boolean isDamaged = false;
                     if (response.toUpperCase().equals("Y")) {					
                         isDamaged = true;
@@ -63,7 +63,7 @@ public class ReturnItemUI {
                 
                 default: {
                     displayOutput("Unhandled state");
-                    throw new RuntimeException("ReturnBookUI : unhandled state :" + uiState);	
+                    throw new RuntimeException("ReturnItemUI : unhandled state :" + uiState);	
                 }
             }
         }
