@@ -6,7 +6,7 @@ import java.util.Scanner;
 import library.entities.Item;
 import library.entities.ItemType;
 import library.borrowitem.BorrowItemUI;
-import library.borrowitem.bORROW_IteM_cONTROL;
+import library.borrowitem.BorrowItemControl;
 import library.entities.Calendar;
 import library.entities.Library;
 import library.entities.Loan;
@@ -15,7 +15,7 @@ import library.fixitem.FixItemUI;
 import library.fixitem.fIX_iTeM_cONTROL;
 import library.payfine.PayFineUI;
 import library.payfine.pAY_fINE_cONTROL;
-import library.returnItem.ReturnBookUI;
+import library.returnItem.ReturnItemUI;
 import library.returnItem.ReturnItemControl;
 
 
@@ -164,12 +164,16 @@ public class Main {
 
 
 	private static void BORROW_ITEM() {
-		new BorrowItemUI(new bORROW_IteM_cONTROL()).RuN();		
+
+		new BorrowItemUI(new BorrowItemControl()).run();		
+
 	}
 
 
 	private static void RETURN_ITEM() {
-		new ReturnBookUI(new ReturnItemControl()).RuN();		
+
+		new ReturnItemUI(new ReturnItemControl()).run();		
+
 	}
 
 
