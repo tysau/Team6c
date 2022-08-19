@@ -5,111 +5,115 @@ import java.util.Scanner;
 public class PayFineUI {
 
 
-    private enum uI_sTaTe { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
+    private enum PayFineUIState { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
 
-    private PayFineControl CoNtRoL;
-    private Scanner ScAnNeR;
-    private uI_sTaTe StAtE;
+    private PayFineControl control;
+    private Scanner scanner;
+    private PayFineUIState uiState;
 
 	
     public PayFineUI(PayFineControl control) {
-        this.CoNtRoL = control;
-        ScAnNeR = new Scanner(System.in);
-        StAtE = uI_sTaTe.INITIALISED;
+        this.control = control;
+        scanner = new Scanner(System.in);
+        uiState = PayFineUIState.INITIALISED;
         control.setUI(this);
     }
 	
 	
-    public void RuN() {
-        DiSpLaYoUtPuT("Pay Fine Use Case UI\n");
+    public void run() {
+        displayOutput("Pay Fine Use Case UI\n");
 		
         while (true) {
 			
-            switch (StAtE) {
+            switch (uiState) {
 			
-            case READY:
-                String PaT_Str = GeTiNpUt("Swipe patron card (press <enter> to cancel): ");
-                if (PaT_Str.length() == 0) {
-                    CoNtRoL.cancel();
+                case READY: {
+                    String patronString = getInput("Swipe patron card (press <enter> to cancel): ");
+                    if (patronString.length() == 0) {
+                        control.cancel();
+                        break;
+                    }
+                    try {
+                        long patronId = Long.valueOf(patronString).longValue();
+                        control.cardSwiped(patronId);
+                    }
+                    catch (NumberFormatException e) {
+                        displayOutput("Invalid patronID");
+                    }
                     break;
                 }
-                try {
-                    long PAtroN_ID = Long.valueOf(PaT_Str).longValue();
-                    CoNtRoL.cardSwiped(PAtroN_ID);
-                }
-                catch (NumberFormatException e) {
-                    DiSpLaYoUtPuT("Invalid patronID");
-                }
-                break;
 				
-            case PAYING:
-                double AmouNT = 0;
-                String Amt_Str = GeTiNpUt("Enter amount (<Enter> cancels) : ");
-                if (Amt_Str.length() == 0) {
-                    CoNtRoL.cancel();
+                case PAYING: {
+                    double amount = 0;
+                    String amountString = getInput("Enter amount (<Enter> cancels) : ");
+                    if (amountString.length() == 0) {
+                        control.cancel();
+                        break;
+                    }
+                    try {
+                        amount = Double.valueOf(amountString).doubleValue();
+                    }
+                    catch (NumberFormatException e) {}
+                    if (amount <= 0) {
+                        displayOutput("Amount must be positive");
+                        break;
+                    }
+                    control.payFine(amount);
                     break;
                 }
-                try {
-                    AmouNT = Double.valueOf(Amt_Str).doubleValue();
-                }
-                catch (NumberFormatException e) {}
-                if (AmouNT <= 0) {
-                    DiSpLaYoUtPuT("Amount must be positive");
-                    break;
-                }
-                CoNtRoL.payFine(AmouNT);
-                break;
 								
-            case CANCELLED:
-                DiSpLaYoUtPuT("Pay Fine process cancelled");
-                return;
+                case CANCELLED: {
+                    displayOutput("Pay Fine process cancelled");
+                    return;
+                }
 			
-            case COMPLETED:
-                DiSpLaYoUtPuT("Pay Fine process complete");
-                return;
+                case COMPLETED: {
+                    displayOutput("Pay Fine process complete");
+                    return;
+                }
 			
-            default:
-                DiSpLaYoUtPuT("Unhandled state");
-                throw new RuntimeException("FixBookUI : unhandled state :" + StAtE);			
-			
+                default: {
+                    displayOutput("Unhandled state");
+                    throw new RuntimeException("FixBookUI : unhandled state :" + uiState);			
+                }
             }		
         }		
     }
 
 	
-    private String GeTiNpUt(String prompt) {
+    private String getInput(String prompt) {
         System.out.print(prompt);
-        return ScAnNeR.nextLine();
+        return scanner.nextLine();
     }	
 		
 		
-    private void DiSpLaYoUtPuT(Object object) {
+    private void displayOutput(Object object) {
         System.out.println(object);
     }	
 			
 
-    public void DiSplAY(Object object) {
-        DiSpLaYoUtPuT(object);
+    public void display(Object object) {
+        displayOutput(object);
     }
 
 
-    public void SeTcOmPlEtEd() {
-        StAtE = uI_sTaTe.COMPLETED;		
+    public void setCompleted() {
+        uiState = PayFineUIState.COMPLETED;		
     }
 
 
-    public void SeTpAyInG() {
-        StAtE = uI_sTaTe.PAYING;
+    public void setPaying() {
+        uiState = PayFineUIState.PAYING;
     }
 
 
-    public void SeTcAnCeLlEd() {
-        StAtE = uI_sTaTe.CANCELLED;	
+    public void setCancelled() {
+        uiState = PayFineUIState.CANCELLED;	
     }
 
 
     public void setReady() {
-        StAtE = uI_sTaTe.READY;	
+        uiState = PayFineUIState.READY;	
     }
 
 
