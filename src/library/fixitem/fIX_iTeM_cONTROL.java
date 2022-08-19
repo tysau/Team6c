@@ -23,7 +23,7 @@ public class fIX_iTeM_cONTROL {
 			throw new RuntimeException("FixItemControl: cannot call setUI except in INITIALISED state");
 			
 		this.Ui = ui;
-		Ui.SeTrEaDy();
+		Ui.setReady();
 		StAtE = CoNtRoL_StAtE.READY;		
 	}
 
@@ -35,15 +35,15 @@ public class fIX_iTeM_cONTROL {
 		CuRrEnT_ItEm = LiBrArY.getItem(iTEm_Id);
 		
 		if (CuRrEnT_ItEm == null) {
-			Ui.dIsPlAy("Invalid itemId");
+			Ui.display("Invalid itemId");
 			return;
 		}
 		if (!CuRrEnT_ItEm.isDamaged()) {
-			Ui.dIsPlAy("Item has not been damaged");
+			Ui.display("Item has not been damaged");
 			return;
 		}
-		Ui.dIsPlAy(CuRrEnT_ItEm);
-		Ui.SeTiNsPeCtInG();
+		Ui.display(CuRrEnT_ItEm);
+		Ui.setInspecting();
 		StAtE = CoNtRoL_StAtE.INSPECTING;		
 	}
 
@@ -56,7 +56,7 @@ public class fIX_iTeM_cONTROL {
 			LiBrArY.repairItem(CuRrEnT_ItEm);
 		
 		CuRrEnT_ItEm = null;
-		Ui.SeTrEaDy();
+		Ui.setReady();
 		StAtE = CoNtRoL_StAtE.READY;		
 	}
 
@@ -65,7 +65,7 @@ public class fIX_iTeM_cONTROL {
 		if (!StAtE.equals(CoNtRoL_StAtE.READY)) 
 			throw new RuntimeException("FixItemControl: cannot call processingCompleted except in READY state");
 		
-		Ui.SeTcOmPlEtEd();
+		Ui.setCompleted();
 	}
 
 }
