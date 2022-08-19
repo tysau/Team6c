@@ -6,58 +6,62 @@ public class FixItemUI {
 
     private enum FixItemUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-    private fIX_iTeM_cONTROL CoNtRoL;
+    private fIX_iTeM_cONTROL control;
     private Scanner scanner;
     private FixItemUIState state;
 
 	
-    public FixItemUI(fIX_iTeM_cONTROL CoNtRoL) {
-        this.CoNtRoL = CoNtRoL;
+    public FixItemUI(fIX_iTeM_cONTROL control) {
+        this.control = control;
         scanner = new Scanner(System.in);
         state = FixItemUIState.INITIALISED;
-        CoNtRoL.SeT_Ui(this);
+        control.SeT_Ui(this);
     }
 
 
-    public void RuN() {
+    public void run() {
         displayOutput("Fix Item Use Case UI\n");
 		
         while (true) {
 			
             switch (state) {
 			
-            case READY:
-                String ITem_EnTrY_StRiNg = getInput("Scan Item (<enter> completes): ");
-                if (ITem_EnTrY_StRiNg.length() == 0) 
-                    CoNtRoL.PrOcEsSiNgCoMpLeTeD();
+                case READY: {
+                    String itemEntryString = getInput("Scan Item (<enter> completes): ");
+                    if (itemEntryString.length() == 0) 
+                        control.PrOcEsSiNgCoMpLeTeD();
 				
-                else {
-                    try {
-                        long itEM_Id = Long.valueOf(ITem_EnTrY_StRiNg).longValue();
-                        CoNtRoL.ItEm_ScAnNeD(itEM_Id);
+                    else {
+                        try {
+                            long itemId = Long.valueOf(itemEntryString).longValue();
+                            control.ItEm_ScAnNeD(itemId);
+                        }
+                        catch (NumberFormatException e) {
+                            displayOutput("Invalid itemId");
+                        }
                     }
-                    catch (NumberFormatException e) {
-                        displayOutput("Invalid itemId");
-                    }
+                    break;	
                 }
-                break;	
 				
-            case INSPECTING:
-                String AnS = getInput("Fix Item? (Y/N) : ");
-                boolean MuStFiX = false;
-                if (AnS.toUpperCase().equals("Y")) 
-                    MuStFiX = true;
+                case INSPECTING: {
+                    String answer = getInput("Fix Item? (Y/N) : ");
+                    boolean answerBoolean = false;
+                    if (answer.toUpperCase().equals("Y")) 
+                        answerBoolean = true;
 				
-                CoNtRoL.IteMInSpEcTeD(MuStFiX);
-                break;
+                    control.IteMInSpEcTeD(answerBoolean);
+                    break;
+                }
 								
-            case COMPLETED:
-                displayOutput("Fixing process complete");
-                return;
+                case COMPLETED: {
+                    displayOutput("Fixing process complete");
+                    return;
+                }
 			
-            default:
-                displayOutput("Unhandled state");
-                throw new RuntimeException("FixItemUI : unhandled state :" + state);			
+                default: {
+                    displayOutput("Unhandled state");
+                    throw new RuntimeException("FixItemUI : unhandled state :" + state);	
+                }
 			
             }		
         }	
