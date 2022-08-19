@@ -11,11 +11,11 @@ public class FixItemUI {
     private FixItemUIState uiState;
 
 	
-    public FixItemUI(fIX_iTeM_cONTROL control) {
-        this.control = control;
+    public FixItemUI(fIX_iTeM_cONTROL fixItemControl) {
+        this.control = fixItemControl;
         scanner = new Scanner(System.in);
         uiState = FixItemUIState.INITIALISED;
-        control.SeT_Ui(this);
+        fixItemControl.SeT_Ui(this);
     }
 
 
