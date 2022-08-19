@@ -8,13 +8,13 @@ public class FixItemUI {
 
     private fIX_iTeM_cONTROL control;
     private Scanner scanner;
-    private FixItemUIState state;
+    private FixItemUIState uiState;
 
 	
     public FixItemUI(fIX_iTeM_cONTROL control) {
         this.control = control;
         scanner = new Scanner(System.in);
-        state = FixItemUIState.INITIALISED;
+        uiState = FixItemUIState.INITIALISED;
         control.SeT_Ui(this);
     }
 
@@ -24,7 +24,7 @@ public class FixItemUI {
 		
         while (true) {
 			
-            switch (state) {
+            switch (uiState) {
 			
                 case READY: {
                     String itemEntryString = getInput("Scan Item (<enter> completes): ");
@@ -60,7 +60,7 @@ public class FixItemUI {
 			
                 default: {
                     displayOutput("Unhandled state");
-                    throw new RuntimeException("FixItemUI : unhandled state :" + state);	
+                    throw new RuntimeException("FixItemUI : unhandled state :" + uiState);	
                 }
 			
             }		
@@ -85,17 +85,17 @@ public class FixItemUI {
 
 
     public void setInspecting() {
-        this.state = FixItemUIState.INSPECTING;		
+        this.uiState = FixItemUIState.INSPECTING;		
     }
 
 
     public void setReady() {
-        this.state = FixItemUIState.READY;
+        this.uiState = FixItemUIState.READY;
     }
 
 
     public void setCompleted() {
-        this.state = FixItemUIState.COMPLETED;
+        this.uiState = FixItemUIState.COMPLETED;
     }
 	
 	
