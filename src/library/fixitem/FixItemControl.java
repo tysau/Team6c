@@ -4,69 +4,72 @@ import library.entities.Library;
 
 public class FixItemControl{
 	
-    private enum CoNtRoL_StAtE { INITIALISED, READY, INSPECTING };
-    private CoNtRoL_StAtE StAtE;
-    private FixItemUI Ui;
+    private enum ControlState { INITIALISED, READY, INSPECTING };
+    private ControlState state;
+    private FixItemUI ui;
 	
-    private Library LiBrArY;
-    private Item CuRrEnT_ItEm;
+    private Library library;
+    private Item currentItem;
 
 
     public FixItemControl() {
-        this.LiBrArY = Library.getInstance();
-        StAtE = CoNtRoL_StAtE.INITIALISED;
+        this.library = Library.getInstance();
+        state = ControlState.INITIALISED;
     }
 	
 	
-    public void SeT_Ui(FixItemUI ui) {
-        if (!StAtE.equals(CoNtRoL_StAtE.INITIALISED)) 
+    public void setUI(FixItemUI ui) {
+        if (!state.equals(ControlState.INITIALISED)) {
             throw new RuntimeException("FixItemControl: cannot call setUI except in INITIALISED state");
-			
+        }
+        
+        this.ui = ui;
+        ui.setReady();
+        state = ControlState.READY;		
+    }
 
-		this.Ui = ui;
-		Ui.setReady();
-		StAtE = CoNtRoL_StAtE.READY;		
-	}
 
-
-    public void ItEm_ScAnNeD(long iTEm_Id) {
-        if (!StAtE.equals(CoNtRoL_StAtE.READY)) 
+    public void itemScanned(long bookId) {
+        if (!state.equals(ControlState.READY)) { 
             throw new RuntimeException("FixItemControl: cannot call itemScanned except in READY state");
-			
-        CuRrEnT_ItEm = LiBrArY.getItem(iTEm_Id);
+        }
+        
+        currentItem = library.getItem(bookId);
 		
-		if (CuRrEnT_ItEm == null) {
-			Ui.display("Invalid itemId");
-			return;
-		}
-		if (!CuRrEnT_ItEm.isDamaged()) {
-			Ui.display("Item has not been damaged");
-			return;
-		}
-		Ui.display(CuRrEnT_ItEm);
-		Ui.setInspecting();
-		StAtE = CoNtRoL_StAtE.INSPECTING;		
-	}
+        if (currentItem == null) {
+            ui.display("Invalid itemId");
+            return;
+        }
+        if (!currentItem.isDamaged()) {
+            ui.display("Item has not been damaged");
+            return;
+        }
+        ui.display(currentItem);
+        ui.setInspecting();
+        state = ControlState.INSPECTING;		
+    }
 
 
-    public void IteMInSpEcTeD(boolean mUsT_FiX) {
-        if (!StAtE.equals(CoNtRoL_StAtE.INSPECTING)) 
+    public void itemInspected(boolean mustFix) {
+        if (!state.equals(ControlState.INSPECTING)) {
             throw new RuntimeException("FixItemControl: cannot call itemInspected except in INSPECTING state");
+        }
+        
+        if (mustFix) {
+            library.repairItem(currentItem);
+        }
 		
-        if (mUsT_FiX) 
-            LiBrArY.repairItem(CuRrEnT_ItEm);
-		
-		CuRrEnT_ItEm = null;
-		Ui.setReady();
-		StAtE = CoNtRoL_StAtE.READY;		
-	}
+        currentItem = null;
+        ui.setReady();
+        state = ControlState.READY;		
+    }
 
 	
-    public void PrOcEsSiNgCoMpLeTeD() {
-        if (!StAtE.equals(CoNtRoL_StAtE.READY)) 
+    public void processingCompleted() {
+        if (!state.equals(ControlState.READY)) {
             throw new RuntimeException("FixItemControl: cannot call processingCompleted except in READY state");
+        }
 		
-		Ui.setCompleted();
-	}
-
+        ui.setCompleted();
+    }
 }
