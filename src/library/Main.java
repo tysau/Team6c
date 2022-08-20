@@ -2,6 +2,7 @@ package library;
 
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.Date;
 
 import library.entities.Item;
 import library.entities.ItemType;
@@ -67,7 +68,9 @@ public class Main {
             boolean finished = false;
 			
             while (!finished) {
-                displayOutput("\n" + simpleDateFormat.format(calendar.getDate()));
+                Date currentDate = calendar.getDate();
+                Object currentDateFormatted = simpleDateFormat.format(currentDate);
+                displayOutput("\n" + currentDateFormatted);
                 String choice = getInput(menu);
 			
                 switch (choice.toUpperCase()) {
@@ -132,7 +135,8 @@ public class Main {
 
 	
     private static void payFines() {
-        new PayFineUI(new PayFineControl()).run();		
+        PayFineControl payFineControl = new PayFineControl();
+        new PayFineUI(payFineControl).run();		
     }
 
 
@@ -161,26 +165,32 @@ public class Main {
 
 
     private static void borrowItem() {
-        new BorrowItemUI(new BorrowItemControl()).run();		
+        BorrowItemControl borrowItemControl = new BorrowItemControl();
+        new BorrowItemUI(borrowItemControl).run();		
     }
 
 
     private static void returnItem() {
-        new ReturnItemUI(new ReturnItemControl()).run();		
+        ReturnItemControl returnItemControl = new ReturnItemControl();
+        new ReturnItemUI(returnItemControl).run();		
     }
 
 
     private static void fixItems() {
-        new FixItemUI(new FixItemControl()).run();		
+        FixItemControl fixItemControl = new FixItemControl();
+        new FixItemUI(fixItemControl).run();		
     }
 
 
     private static void incrementDate() {
         try {
-            int days = Integer.valueOf(getInput("Enter number of days: ")).intValue();
+            String daysString = getInput("Enter number of days: ");
+            int days = Integer.valueOf(daysString).intValue();
             calendar.incrementDate(days);
             library.updateCurrentLoansStatus();
-            displayOutput(simpleDateFormat.format(calendar.getDate()));
+            Date currentDate = calendar.getDate();
+            Object currentDateFormatted = simpleDateFormat.format(currentDate);
+            displayOutput(currentDateFormatted);
 			
         } catch (NumberFormatException e) {
             displayOutput("\nInvalid number of days\n");
@@ -249,7 +259,8 @@ public class Main {
             String firstName  = getInput("Enter first name: ");
             String lastName = getInput("Enter last name: ");
             String emailAddress = getInput("Enter email address: ");
-            long phoneNumber = Long.valueOf(getInput("Enter phone number: ")).intValue();
+            String phoneNumberString = getInput("Enter phone number: ");
+            long phoneNumber = Long.valueOf(phoneNumberString).intValue();
             Patron patron = library.addPatron(firstName, lastName, emailAddress, phoneNumber);
             displayOutput("\n" + patron + "\n");
 	
