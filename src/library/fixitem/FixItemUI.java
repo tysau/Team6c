@@ -4,99 +4,99 @@ import java.util.Scanner;
 
 public class FixItemUI {
 
-	private enum uI_sTaTe { INITIALISED, READY, INSPECTING, COMPLETED };
+    private enum FixItemUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-	private fIX_iTeM_cONTROL CoNtRoL;
-	private Scanner InPuT;
-	private uI_sTaTe StAtE;
+    private fIX_iTeM_cONTROL control;
+    private Scanner scanner;
+    private FixItemUIState uiState;
 
 	
-	public FixItemUI(fIX_iTeM_cONTROL CoNtRoL) {
-		this.CoNtRoL = CoNtRoL;
-		InPuT = new Scanner(System.in);
-		StAtE = uI_sTaTe.INITIALISED;
-		CoNtRoL.SeT_Ui(this);
-	}
+    public FixItemUI(fIX_iTeM_cONTROL fixItemControl) {
+        this.control = fixItemControl;
+        scanner = new Scanner(System.in);
+        uiState = FixItemUIState.INITIALISED;
+        fixItemControl.SeT_Ui(this);
+    }
 
 
-	public void RuN() {
-		DiSpLaY_OuTpUt("Fix Item Use Case UI\n");
+    public void run() {
+        displayOutput("Fix Item Use Case UI\n");
 		
-		while (true) {
+        while (true) {
 			
-			switch (StAtE) {
+            switch (uiState) {
 			
-			case READY:
-				String ITem_EnTrY_StRiNg = GeTiNpUt("Scan Item (<enter> completes): ");
-				if (ITem_EnTrY_StRiNg.length() == 0) 
-					CoNtRoL.PrOcEsSiNgCoMpLeTeD();
+                case READY: {
+                    String itemEntryString = getInput("Scan Item (<enter> completes): ");
+                    if (itemEntryString.length() == 0) 
+                        control.PrOcEsSiNgCoMpLeTeD();
 				
-				else {
-					try {
-						long itEM_Id = Long.valueOf(ITem_EnTrY_StRiNg).longValue();
-						CoNtRoL.ItEm_ScAnNeD(itEM_Id);
-					}
-					catch (NumberFormatException e) {
-						DiSpLaY_OuTpUt("Invalid itemId");
-					}
-				}
-				break;	
+                    else {
+                        try {
+                            long itemId = Long.valueOf(itemEntryString).longValue();
+                            control.ItEm_ScAnNeD(itemId);
+                        }
+                        catch (NumberFormatException e) {
+                            displayOutput("Invalid itemId");
+                        }
+                    }
+                    break;	
+                }
 				
-			case INSPECTING:
-				String AnS = GeTiNpUt("Fix Item? (Y/N) : ");
-				boolean MuStFiX = false;
-				if (AnS.toUpperCase().equals("Y")) 
-					MuStFiX = true;
+                case INSPECTING: {
+                    String answer = getInput("Fix Item? (Y/N) : ");
+                    boolean answerBoolean = false;
+                    if (answer.toUpperCase().equals("Y")) 
+                        answerBoolean = true;
 				
-				CoNtRoL.IteMInSpEcTeD(MuStFiX);
-				break;
+                    control.IteMInSpEcTeD(answerBoolean);
+                    break;
+                }
 								
-			case COMPLETED:
-				DiSpLaY_OuTpUt("Fixing process complete");
-				return;
+                case COMPLETED: {
+                    displayOutput("Fixing process complete");
+                    return;
+                }
 			
-			default:
-				DiSpLaY_OuTpUt("Unhandled state");
-				throw new RuntimeException("FixItemUI : unhandled state :" + StAtE);			
+                default: {
+                    displayOutput("Unhandled state");
+                    throw new RuntimeException("FixItemUI : unhandled state :" + uiState);	
+                }
 			
-			}		
-		}
-		
-	}
+            }		
+        }	
+    }
 
 	
-	private String GeTiNpUt(String prompt) {
-		System.out.print(prompt);
-		return InPuT.nextLine();
-	}	
+    private String getInput(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }	
 		
 		
-	private void DiSpLaY_OuTpUt(Object DiSpLaYoBjEcT) {
-		System.out.println(DiSpLaYoBjEcT);
-	}
+    private void displayOutput(Object displayObject) {
+        System.out.println(displayObject);
+    }
 	
 
-	public void dIsPlAy(Object DiSpLaYoBjEcT) {
-		DiSpLaY_OuTpUt(DiSpLaYoBjEcT);
-	}
+    public void display(Object displayObject) {
+        displayOutput(displayObject);
+    }
 
 
-	public void SeTiNsPeCtInG() {
-		this.StAtE = uI_sTaTe.INSPECTING;
-		
-	}
+    public void setInspecting() {
+        this.uiState = FixItemUIState.INSPECTING;		
+    }
 
 
-	public void SeTrEaDy() {
-		this.StAtE = uI_sTaTe.READY;
-		
-	}
+    public void setReady() {
+        this.uiState = FixItemUIState.READY;
+    }
 
 
-	public void SeTcOmPlEtEd() {
-		this.StAtE = uI_sTaTe.COMPLETED;
-		
-	}
+    public void setCompleted() {
+        this.uiState = FixItemUIState.COMPLETED;
+    }
 	
 	
 }
