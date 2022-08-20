@@ -6,16 +6,16 @@ public class FixItemUI {
 
     private enum FixItemUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-    private fIX_iTeM_cONTROL control;
+    private FixItemControl control;
     private Scanner scanner;
     private FixItemUIState uiState;
 
 	
-    public FixItemUI(fIX_iTeM_cONTROL fixItemControl) {
+    public FixItemUI(FixItemControl fixItemControl) {
         this.control = fixItemControl;
         scanner = new Scanner(System.in);
         uiState = FixItemUIState.INITIALISED;
-        fixItemControl.SeT_Ui(this);
+        fixItemControl.setUI(this);
     }
 
 
@@ -29,12 +29,12 @@ public class FixItemUI {
                 case READY: {
                     String itemEntryString = getInput("Scan Item (<enter> completes): ");
                     if (itemEntryString.length() == 0) 
-                        control.PrOcEsSiNgCoMpLeTeD();
+                        control.processingCompleted();
 				
                     else {
                         try {
                             long itemId = Long.valueOf(itemEntryString).longValue();
-                            control.ItEm_ScAnNeD(itemId);
+                            control.itemScanned(itemId);
                         }
                         catch (NumberFormatException e) {
                             displayOutput("Invalid itemId");
@@ -49,7 +49,7 @@ public class FixItemUI {
                     if (answer.toUpperCase().equals("Y")) 
                         answerBoolean = true;
 				
-                    control.IteMInSpEcTeD(answerBoolean);
+                    control.itemInspected(answerBoolean);
                     break;
                 }
 								
