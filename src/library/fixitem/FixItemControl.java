@@ -2,7 +2,7 @@ package library.fixitem;
 import library.entities.Item;
 import library.entities.Library;
 
-public class fIX_iTeM_cONTROL {
+public class FixItemControl{
 	
     private enum CoNtRoL_StAtE { INITIALISED, READY, INSPECTING };
     private CoNtRoL_StAtE StAtE;
@@ -12,7 +12,7 @@ public class fIX_iTeM_cONTROL {
     private Item CuRrEnT_ItEm;
 
 
-    public fIX_iTeM_cONTROL() {
+    public FixItemControl() {
         this.LiBrArY = Library.getInstance();
         StAtE = CoNtRoL_StAtE.INITIALISED;
     }

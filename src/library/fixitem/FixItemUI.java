@@ -6,12 +6,12 @@ public class FixItemUI {
 
     private enum FixItemUIState { INITIALISED, READY, INSPECTING, COMPLETED };
 
-    private fIX_iTeM_cONTROL control;
+    private FixItemControl control;
     private Scanner scanner;
     private FixItemUIState uiState;
 
 	
-    public FixItemUI(fIX_iTeM_cONTROL fixItemControl) {
+    public FixItemUI(FixItemControl fixItemControl) {
         this.control = fixItemControl;
         scanner = new Scanner(System.in);
         uiState = FixItemUIState.INITIALISED;
